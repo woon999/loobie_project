@@ -1,6 +1,8 @@
 package toyproject.loobie;
 
 import java.text.NumberFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class RegexMain {
     public static void main(String[] args) {
@@ -24,33 +26,43 @@ public class RegexMain {
 //        System.out.println(len);
 //        System.out.println(line);
 
-        String line  = "1,117.00@6.00(-0.53%) 하락";
-        String[] data = line.split("@");
-        System.out.println(data[0]);
-        System.out.println(data[1]);
-        Double indx = Double.parseDouble(data[0].replaceAll(",",""));
-        System.out.println(indx);
+//        String line  = "1,117.00@6.00(-0.53%) 하락";
+//        String[] data = line.split("@");
+//        System.out.println(data[0]);
+//        System.out.println(data[1]);
+//        Double indx = Double.parseDouble(data[0].replaceAll(",",""));
+//        System.out.println(indx);
 
 //        String dis = "^(";
 //        data[1] = data[1].replaceAll(dis,"");
 
-        if(data[1].contains("하락")){
-            String[] changeData = data[1].split("-");
-            System.out.println(changeData[0].substring(0,changeData[0].length()-1));
-            String ci = changeData[0].substring(0,changeData[0].length()-1);
-            System.out.println("ci = " + ci);
+//        if(data[1].contains("하락")){
+//            String[] changeData = data[1].split("-");
+//            System.out.println(changeData[0].substring(0,changeData[0].length()-1));
+//            String ci = changeData[0].substring(0,changeData[0].length()-1);
+//            System.out.println("ci = " + ci);
+//
+//            changeData = changeData[1].split("%");
+//            String cr = changeData[0].substring(0,changeData[0].length());
+//            System.out.println("cr = " + cr);
+//
+//        }else{
+//            String[] changeData = data[1].split("\\+");
+//            System.out.println(changeData[0].substring(0,changeData[0].length()-1));
+//            Double changeIndex = Double.parseDouble(changeData[0].substring(0,changeData[0].length()-1));
+//            System.out.println("changeIndex = " + changeIndex);
+//        }
 
-            changeData = changeData[1].split("%");
-            String cr = changeData[0].substring(0,changeData[0].length());
-            System.out.println("cr = " + cr);
-            
-        }else{
-            String[] changeData = data[1].split("\\+");
-            System.out.println(changeData[0].substring(0,changeData[0].length()-1));
-            Double changeIndex = Double.parseDouble(changeData[0].substring(0,changeData[0].length()-1));
-            System.out.println("changeIndex = " + changeIndex);
-        }
-//        String[] changeData = data[1].split("(");
+        LocalDateTime date = LocalDateTime.now();
+        System.out.println(date);
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        System.out.println(date.format(dateTimeFormatter));
+        String date2 = date.format(dateTimeFormatter);
+        System.out.println(date2.equals("20210527"));
+        System.out.println(date2+".csv");
+
+
+
 
 
 

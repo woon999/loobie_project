@@ -17,7 +17,7 @@ public class NewsRepository {
         return news.getId();
     }
 
-    public News find(Long id){
+    public News findOne(Long id){
         return em.find(News.class, id);
     }
 

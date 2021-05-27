@@ -87,7 +87,7 @@ public class S3Service {
                         link = null;
                         Article article = new Article();
                         Economic economic = new Economic();
-                        News insertNews = newsRepository.find(newsId);
+                        News insertNews = newsRepository.findOne(newsId);
 
                         if(data[i].equals("[뉴스 정치]")){
                             content = data[i + 1].substring(1, data[i + 1].length());
