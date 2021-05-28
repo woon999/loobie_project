@@ -5,6 +5,7 @@ import toyproject.loobie.domain.News;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 
 @Repository
 public class NewsRepository {
@@ -19,6 +20,11 @@ public class NewsRepository {
 
     public News findOne(Long id){
         return em.find(News.class, id);
+    }
+
+    public List<News> findAll(){
+        return em.createQuery("select n from News n", News.class)
+                .getResultList();
     }
 
 }

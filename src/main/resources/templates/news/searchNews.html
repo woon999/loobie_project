@@ -7,7 +7,7 @@
     <form th:action="@{/news}" th:object="${searchNews}" method="post">
         <div class="form-group mt-3">
             <label th:for="name">뉴스 조회 날짜</label>
-            <input type="text" th:field="*{newsDate}" class="form-control mt-2"
+            <input type="text" th:field="*{id}" class="form-control mt-2"
                    placeholder="yyyyMMdd (ex. 20210524)를 입력하세요">
         </div>
 

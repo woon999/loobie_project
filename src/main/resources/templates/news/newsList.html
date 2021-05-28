@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header" />
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <div>
+
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>카테고리</th>
+                <th>내용</th>
+                <th>링크</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="article : ${articles}">
+                <td th:text="${article.type}"></td>
+                <td th:text="${article.newsContent}"></td>
+                <td>
+                    <a th:href="@{${article.newsLink}}">링크</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <br/>
+    <div th:replace="fragments/footer :: footer" />
+</div> <!-- /container -->
+</body>
+</html>

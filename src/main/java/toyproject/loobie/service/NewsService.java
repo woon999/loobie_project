@@ -6,6 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 import toyproject.loobie.NewsRepository;
 import toyproject.loobie.domain.News;
 
+import java.util.List;
+
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -15,5 +17,9 @@ public class NewsService {
 
     public News findOne(Long id) {
         return newsRepository.findOne(id);
+    }
+
+    public List<News> findAllNews(){
+        return newsRepository.findAll();
     }
 }
