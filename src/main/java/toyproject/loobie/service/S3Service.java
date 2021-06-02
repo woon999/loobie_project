@@ -25,6 +25,8 @@ import toyproject.loobie.domain.News;
 import javax.transaction.Transactional;
 import java.io.*;
 import java.net.URLEncoder;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Service
 @RequiredArgsConstructor
@@ -44,7 +46,9 @@ public class S3Service {
     @Value("${aws.s3.bucket}")
     private String bucket;
 
-
+    private LocalDateTime date = LocalDateTime.now();
+    private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+    private String todayDate = date.format(dateTimeFormatter);
 
     /**
      * S3 bucket 파일 읽기
@@ -53,6 +57,8 @@ public class S3Service {
         S3Object o = amazonS3.getObject(new GetObjectRequest(bucket, storedFileName));
         S3ObjectInputStream ois = null;
         BufferedReader br = null;
+
+
 
         // Read the CSV one line at a time and process it.
         try {
@@ -70,7 +76,7 @@ public class S3Service {
                 News news = new News();
 
                 if(data[0].equals("N")){
-                    newsId = create(news);
+                    newsId = create(news, todayDate);
 
                     for (String s : data) {
                         System.out.print(s);
@@ -220,8 +226,8 @@ public class S3Service {
         return new ResponseEntity<>(bytes, httpHeaders, HttpStatus.OK);
     }
 
-    public Long create(News news){
-        newsRepository.save(news);
+    public Long create(News news, String date){
+        newsRepository.saveWithDate(news, date);
         return news.getId();
     }
 

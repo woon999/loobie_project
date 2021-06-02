@@ -16,6 +16,8 @@ public class News {
     @Column(name = "news_id")
     private Long id;
 
+    private String date;
+
     @OneToMany(mappedBy = "news")
     private List<Article> articles = new ArrayList<>();
 

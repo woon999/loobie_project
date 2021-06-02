@@ -19,6 +19,10 @@ public class NewsService {
         return newsRepository.findOne(id);
     }
 
+    public List<News> findDate(String date) {
+        return newsRepository.findDate(date);
+    }
+
     public List<News> findAllNews(){
         return newsRepository.findAll();
     }

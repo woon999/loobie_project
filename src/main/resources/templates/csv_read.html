@@ -1,10 +1,12 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Hello page</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-</head>
+<head th:replace="fragments/header :: header" />
 <body>
- <h1>csv_read 완료 </h1>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <p>csv_read 완료</p>
+    <br/>
+    <div th:replace="fragments/footer :: footer" />
+</div> <!-- /container -->
 </body>
 </html>

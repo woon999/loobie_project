@@ -18,8 +18,20 @@ public class NewsRepository {
         return news.getId();
     }
 
+    public Long saveWithDate(News news, String date){
+        news.setDate(date);
+        em.persist(news);
+        return news.getId();
+    }
+
     public News findOne(Long id){
         return em.find(News.class, id);
+    }
+
+    public List<News> findDate(String date){
+        return em.createQuery("select n from News n where n.date = :date", News.class)
+                .setParameter("date", date)
+                .getResultList();
     }
 
     public List<News> findAll(){

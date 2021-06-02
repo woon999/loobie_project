@@ -8,6 +8,7 @@ public class NewsForm {
 
     private Long id;
     private String NewsDate;
+    private String date;
 
     private String newsContent;
     private String newsLink;
