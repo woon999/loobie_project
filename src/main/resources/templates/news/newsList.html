@@ -4,7 +4,29 @@
 <body>
 <div class="container">
     <div th:replace="fragments/bodyHeader :: bodyHeader"/>
-    <div>
+    <div class="jumbotron">
+
+        <p class="lead mt-3">오늘의 해외 경제 지표</p>
+        <table class="table table-striped mb-5">
+            <thead>
+            <tr>
+                <th>이름</th>
+                <th>지수</th>
+                <th>변동성</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="economic : ${economics}">
+                <td th:text="${economic.type}"></td>
+                <td th:text="${economic.index}"></td>
+                <td th:text="${economic.changeIndex} + ' / ' + ${economic.changeRate}+'%'"></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <hr class="m-1"/>
+
+        <p class="lead mt-3">오늘의 헤드라인 뉴스</p>
         <table class="table table-striped">
             <thead>
             <tr>
@@ -23,6 +45,8 @@
             </tr>
             </tbody>
         </table>
+
+
     </div>
 
     <br/>

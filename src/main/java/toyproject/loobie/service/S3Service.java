@@ -13,9 +13,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import toyproject.loobie.ArticleRepository;
-import toyproject.loobie.EconomicRepository;
-import toyproject.loobie.NewsRepository;
+import toyproject.loobie.repository.ArticleRepository;
+import toyproject.loobie.repository.EconomicRepository;
+import toyproject.loobie.repository.NewsRepository;
 import toyproject.loobie.domain.Article;
 import toyproject.loobie.domain.Economic;
 import toyproject.loobie.domain.Enum.ArticleCategory;
@@ -77,11 +77,10 @@ public class S3Service {
 
                 if(data[0].equals("N")){
                     newsId = create(news, todayDate);
-
-                    for (String s : data) {
-                        System.out.print(s);
-                    }
-                    System.out.println();
+//                    for (String s : data) {
+//                        System.out.print(s);
+//                    }
+//                    System.out.println();
                 }
                 else{
 

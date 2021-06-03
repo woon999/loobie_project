@@ -1,4 +1,4 @@
-package toyproject.loobie;
+package toyproject.loobie.repository;
 
 import org.springframework.stereotype.Repository;
 import toyproject.loobie.domain.News;

@@ -3,7 +3,7 @@ package toyproject.loobie.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import toyproject.loobie.NewsRepository;
+import toyproject.loobie.repository.NewsRepository;
 import toyproject.loobie.domain.News;
 
 import java.util.List;
@@ -19,7 +19,7 @@ public class NewsService {
         return newsRepository.findOne(id);
     }
 
-    public List<News> findDate(String date) {
+    public List<News> findByDate(String date) {
         return newsRepository.findDate(date);
     }
 
