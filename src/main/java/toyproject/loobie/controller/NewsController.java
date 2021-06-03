@@ -43,8 +43,6 @@ public class NewsController {
             return "redirect:/";
         }
         News news = newsList.get(0);
-
-        Long newsId = news.getId();
 //        System.out.println("news Id = " + newsId);
 //        for(Article article : news.getArticles()){
 //            System.out.println("-------------------------------");
