@@ -50,6 +50,16 @@ public class S3Service {
     private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
     private String todayDate = date.format(dateTimeFormatter);
 
+
+    /**
+     * news DB에 저장
+     * + Date 정보
+     */
+    public Long create(News news, String date){
+        newsRepository.saveWithDate(news, date);
+        return news.getId();
+    }
+
     /**
      * S3 bucket 파일 읽기
      */
@@ -57,8 +67,6 @@ public class S3Service {
         S3Object o = amazonS3.getObject(new GetObjectRequest(bucket, storedFileName));
         S3ObjectInputStream ois = null;
         BufferedReader br = null;
-
-
 
         // Read the CSV one line at a time and process it.
         try {
@@ -71,21 +79,14 @@ public class S3Service {
             Long newsId = 0L;
             while ((line = br.readLine()) != null) {
                 // Store 1 record in an array separated by commas
-
                 String[] data = line.split("#", 0);
                 News news = new News();
 
                 if(data[0].equals("N")){
                     newsId = create(news, todayDate);
-//                    for (String s : data) {
-//                        System.out.print(s);
-//                    }
-//                    System.out.println();
                 }
                 else{
-
                     int idx =Integer.parseInt(data[0]);
-
                     for(int i=1; i<data.length; i++){
                         data[i] = data[i].substring(1, data[i].length());
                         content = null;
@@ -124,54 +125,25 @@ public class S3Service {
                             articleRepository.save(article);
                         }else if(data[i].equals("[경제 환율]")){
                             content = data[i + 1].substring(1, data[i + 1].length());
-                            stringProcessing();
+                            String[] pData = economicDataProcessing().split(",");
 
-                            String[] economic_data = content.split("@");
-                            String index = economic_data[0].replaceAll(",","");
-
-                            String[] changeData = economic_data[1].split("\\(");;
-                            String changeIndex = changeData[0].substring(0,changeData[0].length());
-
-                            changeData = changeData[1].split("%");
-                            String changeRate = changeData[0].substring(0,changeData[0].length());
-
-                            economic = Economic.createEconomicData(insertNews, EconomicCategory.EXCHANGE, index,changeIndex,changeRate );
+                            economic = Economic.createEconomicData(insertNews, EconomicCategory.EXCHANGE,pData[0],pData[1],pData[2] );
                             economicRepository.save(economic);
                         }else if(data[i].equals("[경제 나스닥]")){
                             content = data[i + 1].substring(1, data[i + 1].length());
-                            stringProcessing();
-                            String[] economic_data = content.split("@");
-                            String index = economic_data[0].replaceAll(",","");
+                            String[] pData = economicDataProcessing().split(",");
 
-                            String[] changeData = economic_data[1].split("\\(");;
-                            String changeIndex = changeData[0].substring(0,changeData[0].length());
-
-                            changeData = changeData[1].split("%");
-                            String changeRate = changeData[0].substring(0,changeData[0].length());
-
-                            economic = Economic.createEconomicData(insertNews, EconomicCategory.NASDAQ, index,changeIndex,changeRate );
+                            economic = Economic.createEconomicData(insertNews, EconomicCategory.NASDAQ, pData[0],pData[1],pData[2] );
                             economicRepository.save(economic);
                         }else if(data[i].equals("[경제 SP]")){
                             content = data[i + 1].substring(1, data[i + 1].length());
-                            stringProcessing();
-                            String[] economic_data = content.split("@");
-                            String index = economic_data[0].replaceAll(",","");
+                            String[] pData = economicDataProcessing().split(",");
 
-                            String[] changeData = economic_data[1].split("\\(");;
-                            String changeIndex = changeData[0].substring(0,changeData[0].length());
-
-                            changeData = changeData[1].split("%");
-                            String changeRate = changeData[0].substring(0,changeData[0].length());
-
-                            economic = Economic.createEconomicData(insertNews, EconomicCategory.SP500, index,changeIndex,changeRate );
+                            economic = Economic.createEconomicData(insertNews, EconomicCategory.SP500, pData[0],pData[1],pData[2] );
                             economicRepository.save(economic);
                         }
                     }
-
-                    System.out.println();
                 }
-
-
             }
             System.out.println(sb.toString());
         }finally {
@@ -184,6 +156,8 @@ public class S3Service {
         }
     }
 
+
+    // csv 데이터 1차 가공 작업
     static void stringProcessing(){
         if(content != null){
             if(content.charAt(0) ==',') {
@@ -206,6 +180,21 @@ public class S3Service {
         }
     }
 
+    // 경제 데이터 String 2차 가공 작업
+    static String economicDataProcessing(){
+        stringProcessing();
+        String[] economic_data = content.split("@");
+        String index = economic_data[0].replaceAll(",","");
+
+        String[] changeData = economic_data[1].split("\\(");;
+        String changeIndex = changeData[0].substring(0,changeData[0].length());
+
+        changeData = changeData[1].split("%");
+        String changeRate = changeData[0].substring(0,changeData[0].length());
+
+        return index+","+changeIndex+","+changeRate;
+    }
+
     /**
      * S3 bucket 파일 다운로드
      * bucket 이름 : ${aws.s3.bucket}
@@ -225,10 +214,6 @@ public class S3Service {
         return new ResponseEntity<>(bytes, httpHeaders, HttpStatus.OK);
     }
 
-    public Long create(News news, String date){
-        newsRepository.saveWithDate(news, date);
-        return news.getId();
-    }
 
 
 }

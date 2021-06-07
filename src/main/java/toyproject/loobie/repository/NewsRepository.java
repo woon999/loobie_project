@@ -28,7 +28,7 @@ public class NewsRepository {
         return em.find(News.class, id);
     }
 
-    public List<News> findDate(String date){
+    public List<News> findByDate(String date){
         return em.createQuery("select n from News n where n.date = :date", News.class)
                 .setParameter("date", date)
                 .getResultList();

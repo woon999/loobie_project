@@ -20,7 +20,7 @@ public class NewsService {
     }
 
     public List<News> findByDate(String date) {
-        return newsRepository.findDate(date);
+        return newsRepository.findByDate(date);
     }
 
     public List<News> findAllNews(){
