@@ -1,10 +1,10 @@
-package toyproject.loobie.controller;
+package toyproject.loobie.web.dto;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class NewsForm {
+public class NewsReadRequestDto {
 
     private Long id;
     private String NewsDate;

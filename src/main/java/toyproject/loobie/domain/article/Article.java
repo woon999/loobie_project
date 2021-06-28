@@ -1,7 +1,7 @@
-package toyproject.loobie.domain;
+package toyproject.loobie.domain.article;
 
 import lombok.*;
-import toyproject.loobie.domain.Enum.ArticleCategory;
+import toyproject.loobie.domain.news.News;
 
 import javax.persistence.*;
 

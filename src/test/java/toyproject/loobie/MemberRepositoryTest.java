@@ -3,7 +3,7 @@ package toyproject.loobie;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import toyproject.loobie.repository.NewsRepository;
+import toyproject.loobie.domain.news.NewsRepository;
 
 import javax.transaction.Transactional;
 
