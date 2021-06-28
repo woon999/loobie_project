@@ -1,8 +1,6 @@
-package toyproject.loobie.repository;
+package toyproject.loobie.domain.article;
 
 import org.springframework.stereotype.Repository;
-import toyproject.loobie.domain.Article;
-import toyproject.loobie.domain.News;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

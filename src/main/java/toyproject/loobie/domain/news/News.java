@@ -1,6 +1,8 @@
-package toyproject.loobie.domain;
+package toyproject.loobie.domain.news;
 
 import lombok.*;
+import toyproject.loobie.domain.article.Article;
+import toyproject.loobie.domain.economic.Economic;
 
 import javax.persistence.*;
 import java.util.ArrayList;

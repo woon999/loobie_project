@@ -1,8 +1,6 @@
-package toyproject.loobie.repository;
+package toyproject.loobie.domain.economic;
 
 import org.springframework.stereotype.Repository;
-import toyproject.loobie.domain.Article;
-import toyproject.loobie.domain.Economic;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
