@@ -4,34 +4,28 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
-import com.amazonaws.util.IOUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import toyproject.loobie.domain.article.Article;
-import toyproject.loobie.domain.article.ArticleCategory;
 import toyproject.loobie.domain.article.ArticleRepository;
-import toyproject.loobie.domain.economic.Economic;
-import toyproject.loobie.domain.economic.EconomicCategory;
 import toyproject.loobie.domain.economic.EconomicRepository;
 import toyproject.loobie.domain.news.NewsRepository;
 import toyproject.loobie.domain.news.News;
+import toyproject.loobie.web.dto.ArticleSaveRequestDto;
+import toyproject.loobie.web.dto.EconomicSaveRequestDto;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.URLEncoder;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-@Service
+import static toyproject.loobie.domain.article.ArticleCategory.*;
+import static toyproject.loobie.domain.economic.EconomicCategory.*;
 
+@Service
 @RequiredArgsConstructor
 public class NewsService {
 
@@ -71,27 +65,9 @@ public class NewsService {
         return news.getId();
     }
 
-    /**
-     * S3 bucket 파일 다운로드
-     * bucket 이름 : ${aws.s3.bucket}
-     * bucket에 저장된 파일명: storedFileName
-     */
-//    public ResponseEntity<byte[]> getBucketObject(String storedFileName) throws IOException{
-//        S3Object o = amazonS3.getObject(new GetObjectRequest(bucket, storedFileName));
-//        S3ObjectInputStream objectInputStream = o.getObjectContent();
-//        byte[] bytes = IOUtils.toByteArray(objectInputStream);
-//
-//        String fileName = URLEncoder.encode(storedFileName, "UTF-8").replaceAll("\\+", "%20");
-//        HttpHeaders httpHeaders = new HttpHeaders();
-//        httpHeaders.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-//        httpHeaders.setContentLength(bytes.length);
-//        httpHeaders.setContentDispositionFormData("attachment", fileName);
-//
-//        return new ResponseEntity<>(bytes, httpHeaders, HttpStatus.OK);
-//    }
 
     /**
-     * S3 bucket 객체 파일 읽기 (csv)
+     * S3 bucket 객체 파일 읽어서 저장하기 (csv)
      */
     @Transactional
     public void readBucketObject(String storedFileName) throws IOException {
@@ -122,8 +98,6 @@ public class NewsService {
                         data[i] = data[i].substring(1, data[i].length());
                         content = null;
                         link = null;
-                        Article article = new Article();
-                        Economic economic = new Economic();
                         News insertNews = newsRepository.findOne(newsId);
 
                         // TODO : refactoring
@@ -132,47 +106,78 @@ public class NewsService {
                             link = data[i + 2].substring(1, data[i + 2].length());
                             stringProcessing();
                             // news (POLITICS)
-                            article = Article.createArticle(insertNews, ArticleCategory.POLITICS, content, link);
-                            articleRepository.save(article);
+                            ArticleSaveRequestDto requestDto = ArticleSaveRequestDto.builder()
+                                    .newsContent(content)
+                                    .newsLink(link)
+                                    .news(insertNews)
+                                    .build();
+                            articleRepository.saveByCategory(requestDto ,POLITICS);
                         }else if(data[i].equals("[뉴스 경제]")){
                             content = data[i + 1].substring(1, data[i + 1].length());
                             link = data[i + 2].substring(1, data[i + 2].length());
                             stringProcessing();
                             // news (ECONOMIC)
-                            article = Article.createArticle(insertNews, ArticleCategory.ECONOMIC, content, link);
-                            articleRepository.save(article);
+                            ArticleSaveRequestDto requestDto = ArticleSaveRequestDto.builder()
+                                    .newsContent(content)
+                                    .newsLink(link)
+                                    .news(insertNews)
+                                    .build();
+                            articleRepository.saveByCategory(requestDto ,ECONOMIC);
                         }else if(data[i].equals("[뉴스 IT/과학]")){
                             content = data[i + 1].substring(1, data[i + 1].length());
                             link = data[i + 2].substring(1, data[i + 2].length());
                             stringProcessing();
                             // news (IT)
-                            article = Article.createArticle(insertNews, ArticleCategory.IT, content, link);
-                            articleRepository.save(article);
+                            ArticleSaveRequestDto requestDto = ArticleSaveRequestDto.builder()
+                                    .newsContent(content)
+                                    .newsLink(link)
+                                    .news(insertNews)
+                                    .build();
+                            articleRepository.saveByCategory(requestDto ,IT);
                         }else if(data[i].equals("[뉴스 CNBC]")){
                             content = data[i + 1].substring(1, data[i + 1].length());
                             link = data[i + 2].substring(1, data[i + 2].length());
                             stringProcessing();
                             // news (CNBC)
-                            article = Article.createArticle(insertNews, ArticleCategory.CNBC, content, link);
-                            articleRepository.save(article);
+                            ArticleSaveRequestDto requestDto = ArticleSaveRequestDto.builder()
+                                    .newsContent(content)
+                                    .newsLink(link)
+                                    .news(insertNews)
+                                    .build();
+                            articleRepository.saveByCategory(requestDto ,CNBC);
                         }else if(data[i].equals("[경제 환율]")){
                             content = data[i + 1].substring(1, data[i + 1].length());
                             String[] pData = economicDataProcessing().split(",");
 
-                            economic = Economic.createEconomicData(insertNews, EconomicCategory.EXCHANGE,pData[0],pData[1],pData[2] );
-                            economicRepository.save(economic);
+                            EconomicSaveRequestDto requestDto = EconomicSaveRequestDto.builder()
+                                    .index(pData[0])
+                                    .changeIndex(pData[1])
+                                    .changeRate(pData[2])
+                                    .news(insertNews)
+                                    .build();
+                            economicRepository.saveByCategory(requestDto, EXCHANGE);
                         }else if(data[i].equals("[경제 나스닥]")){
                             content = data[i + 1].substring(1, data[i + 1].length());
                             String[] pData = economicDataProcessing().split(",");
 
-                            economic = Economic.createEconomicData(insertNews, EconomicCategory.NASDAQ, pData[0],pData[1],pData[2] );
-                            economicRepository.save(economic);
+                            EconomicSaveRequestDto requestDto = EconomicSaveRequestDto.builder()
+                                    .index(pData[0])
+                                    .changeIndex(pData[1])
+                                    .changeRate(pData[2])
+                                    .news(insertNews)
+                                    .build();
+                            economicRepository.saveByCategory(requestDto, NASDAQ);
                         }else if(data[i].equals("[경제 SP]")){
                             content = data[i + 1].substring(1, data[i + 1].length());
                             String[] pData = economicDataProcessing().split(",");
 
-                            economic = Economic.createEconomicData(insertNews, EconomicCategory.SP500, pData[0],pData[1],pData[2] );
-                            economicRepository.save(economic);
+                            EconomicSaveRequestDto requestDto = EconomicSaveRequestDto.builder()
+                                    .index(pData[0])
+                                    .changeIndex(pData[1])
+                                    .changeRate(pData[2])
+                                    .news(insertNews)
+                                    .build();
+                            economicRepository.saveByCategory(requestDto, SP500);
                         }
                     }
                 }
@@ -225,4 +230,24 @@ public class NewsService {
 
         return index+","+changeIndex+","+changeRate;
     }
+
+
+    /**
+     * S3 bucket 파일 다운로드
+     * bucket 이름 : ${aws.s3.bucket}
+     * bucket에 저장된 파일명: storedFileName
+     */
+//    public ResponseEntity<byte[]> getBucketObject(String storedFileName) throws IOException{
+//        S3Object o = amazonS3.getObject(new GetObjectRequest(bucket, storedFileName));
+//        S3ObjectInputStream objectInputStream = o.getObjectContent();
+//        byte[] bytes = IOUtils.toByteArray(objectInputStream);
+//
+//        String fileName = URLEncoder.encode(storedFileName, "UTF-8").replaceAll("\\+", "%20");
+//        HttpHeaders httpHeaders = new HttpHeaders();
+//        httpHeaders.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+//        httpHeaders.setContentLength(bytes.length);
+//        httpHeaders.setContentDispositionFormData("attachment", fileName);
+//
+//        return new ResponseEntity<>(bytes, httpHeaders, HttpStatus.OK);
+//    }
 }

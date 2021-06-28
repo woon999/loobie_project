@@ -6,7 +6,6 @@ import lombok.Setter;
 @Getter @Setter
 public class NewsReadRequestDto {
 
-    private Long id;
     private String NewsDate;
     private String date;
 

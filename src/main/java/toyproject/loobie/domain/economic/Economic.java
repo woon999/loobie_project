@@ -26,20 +26,15 @@ public class Economic {
     private News news;
 
     public Economic(){
-
     }
 
-
-    //==생성 메서드==//
-    public static Economic createEconomicData(News news, EconomicCategory type, String
-            index, String changeIndex, String changeRate) {
-        Economic economic = new Economic();
-        economic.setNews(news);
-        economic.setType(type);
-        economic.setIndex(index);
-        economic.setChangeIndex(changeIndex);
-        economic.setChangeRate(changeRate);
-
-        return economic;
+    @Builder
+    public Economic(EconomicCategory type, String index, String changeIndex, String changeRate, News news) {
+        this.type = type;
+        this.index = index;
+        this.changeIndex = changeIndex;
+        this.changeRate = changeRate;
+        this.news = news;
     }
+
 }

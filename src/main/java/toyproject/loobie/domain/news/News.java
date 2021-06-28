@@ -26,4 +26,10 @@ public class News {
     @OneToMany(mappedBy = "news")
     private List<Economic> economics = new ArrayList<>();
 
+    @Builder
+    public News(String date, List<Article> articles, List<Economic> economics) {
+        this.date = date;
+        this.articles = articles;
+        this.economics = economics;
+    }
 }

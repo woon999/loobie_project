@@ -27,18 +27,14 @@ public class Article {
     private News news;
 
     public Article(){
-
     }
 
-    //==생성 메서드==//
-    public static Article createArticle(News news, ArticleCategory type, String content, String link) {
-        Article article = new Article();
-        article.setNews(news);
-        article.setType(type);
-        article.setNewsContent(content);
-        article.setNewsLink(link);
-
-        return article;
+    @Builder
+    public Article(ArticleCategory type, String newsContent, String newsLink, News news) {
+        this.type = type;
+        this.newsContent = newsContent;
+        this.newsLink = newsLink;
+        this.news = news;
     }
 
 }

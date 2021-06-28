@@ -37,5 +37,10 @@ public class NewsRepository {
         return em.createQuery("select n from News n", News.class)
                 .getResultList();
     }
+    public void deleteAll(){
+        em.flush();
+        em.clear();
+    }
+
 
 }
