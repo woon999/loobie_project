@@ -27,7 +27,7 @@ public class NewsRepositoryTest {
 
     @After
     public void cleanup(){
-        newsRepository.deleteAll();
+
     }
 
     @Test
