@@ -1,16 +1,26 @@
 package toyproject.loobie.web;
 
-import lombok.extern.slf4j.Slf4j;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import toyproject.loobie.config.auth.dto.SessionUser;
+
+import javax.servlet.http.HttpSession;
 
 @Controller
-@Slf4j
+@RequiredArgsConstructor
 public class HomeController {
 
+    private final HttpSession httpSession;
+
     @GetMapping("/")
-    public String home(){
-        log.info("home controller");
+    public String home(Model model){
+        SessionUser user = (SessionUser) httpSession.getAttribute("user");
+
+        if(user != null){
+            model.addAttribute("userName", user.getName());
+        }
         return "home"; //
     }
 }

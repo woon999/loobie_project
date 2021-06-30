@@ -83,16 +83,6 @@ public class NewsController {
         }
     }
 
-//    @GetMapping("/csv_download")
-//    public ResponseEntity<byte[]> downloadS3Object(){
-//        try {
-//            return newsService.getBucketObject(todayDataFileName);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        return null;
-//    }
-
     @GetMapping("/csv_read")
     public String s3ReadNews(){
         try {
@@ -103,5 +93,17 @@ public class NewsController {
         }
         return "error";
     }
+
+//    @GetMapping("/csv_download")
+//    public ResponseEntity<byte[]> downloadS3Object(){
+//        try {
+//            return newsService.getBucketObject(todayDataFileName);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        return null;
+//    }
+
+
 
 }

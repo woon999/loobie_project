@@ -1,0 +1,38 @@
+spring:
+  datasource:
+    url: jdbc:h2:tcp://localhost/~/loobie
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  data:
+    jpa:
+      repositories:
+        bootstrap-mode: default
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+#        show_sql: true
+        format_sql: true
+    h2:
+      console:
+        enabled: true
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+  profiles:
+    include: aws, oauth
+
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+    com:
+      amazonaws:
+        util:
+          EC2MetadataUtils: error
+
+aws:
+  s3:
+    bucket: s3-loobie

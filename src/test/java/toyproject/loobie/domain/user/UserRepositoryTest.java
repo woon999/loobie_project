@@ -11,6 +11,7 @@ import toyproject.loobie.domain.news.News;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -41,12 +42,16 @@ public class UserRepositoryTest {
         userRepository.save(user);
 
         //when
-        List<User> userList = userRepository.findByEmail(email);
+        Optional<User> testUser = userRepository.findByEmail(email);
 
-        //then
-        User getUser = userList.get(0);
-        assertThat(getUser.getName()).isEqualTo(name);
-        assertThat(getUser.getEmail()).isEqualTo(email);
+        if(testUser !=null){
+            //then
+            User getUser = testUser.get();
+            assertThat(getUser.getName()).isEqualTo(name);
+            assertThat(getUser.getEmail()).isEqualTo(email);
+        }else {
+            System.out.println("error");
+        }
     }
 
     @Test
