@@ -5,27 +5,31 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body>
+
 <div class="container">
     <div th:replace="fragments/bodyHeader :: bodyHeader"/>
     <div class="jumbotron">
+        <h1 class="mt-3 text-primary">DOT NEWS</h1>
         <div th:if="${userName == null}">
-            <a class="btn btn-lg btn-primary" href="/oauth2/authorization/kakao">Kakao Login</a>
+            <p class="lead mt-5">매일 새로운 닷 뉴스를 받아보세요.</p>
+            <div class="input-group input-group-sm mb-3">
+                <input id="inputGroup-sizing-sm" type="text" class="form-control" placeholder="example@example.com" aria-label="Recipient's username" aria-describedby="emailHelp">
+                <div class="input-group-append">
+                    <button id="btn-email-save" class="btn btn-outline-secondary" type="button">입력</button>
+                </div>
+            </div>
 
         </div>
         <div th:if="${userName != null}">
-            <p th:text="'login :'+ ${userName}"></p>
-            <a class="btn btn-lg btn-primary" href="/logout">logout</a>
+            <p class="lead mt-5">오늘의 새로운 닷을 확인해보세요.</p>
+            <p>
+                <a class="btn btn-lg btn-primary" href="/news/1">닷 읽기</a>
+            </p>
+            <p class="lead mt-5">원하는 날짜의 닷을 검색해보세요.</p>
+            <p>
+                <a class="btn btn-lg btn-primary" href="/searchNews">닷 검색하기</a>
+            </p>
         </div>
-
-        <h1 class="mt-3 text-primary">DOT NEWS</h1>
-        <p class="lead mt-5">오늘의 새로운 닷을 확인해보세요.</p>
-        <p>
-            <a class="btn btn-lg btn-primary" href="/news/1">닷 읽기</a>
-        </p>
-        <p class="lead mt-5">원하는 날짜의 닷을 검색해보세요.</p>
-        <p>
-            <a class="btn btn-lg btn-primary" href="/searchNews">닷 검색하기</a>
-        </p>
 
 
     </div>

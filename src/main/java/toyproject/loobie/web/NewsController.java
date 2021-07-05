@@ -28,9 +28,17 @@ public class NewsController {
     private String todayDate = date.format(dateTimeFormatter);
     private String todayDataFileName =  todayDate +".csv";
 
-    @GetMapping("/news/read")
+    @GetMapping("/api/news/read")
     public void s3ReadNews() throws IOException {
         newsService.readBucketObject(todayDataFileName);
+    }
+
+    /**
+     * 날짜로 뉴스 조회
+     */
+    @PostMapping("/api/news/search/{date}")
+    public void searchNewsByDate(){
+
     }
 
 //    @GetMapping("/csv_download")

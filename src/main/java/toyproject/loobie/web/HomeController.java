@@ -26,7 +26,7 @@ public class HomeController {
         if(user != null){
             model.addAttribute("userName", user.getName());
         }
-        return "home"; //
+        return "home";
     }
 
     @GetMapping("/searchNews")
@@ -35,26 +35,6 @@ public class HomeController {
         return "news/searchNews";
     }
 
-    /**
-     * 날짜로 뉴스 조회
-     */
-    @PostMapping("/searchNews")
-    public String searchNewsByDate(NewsReadRequestDto newsForm , Model model, BindingResult result){
-        if(result.hasErrors()){
-            return "news/searchNews";
-        }
-        List<News> newsList = newsService.findByDate(newsForm.getDate());
-
-        // news가 없을 경우
-        if(newsList.size() == 0){
-            return "redirect:/";
-        }
-        News news = newsList.get(0);
-
-        model.addAttribute("articles", news.getArticles());
-        model.addAttribute("economics", news.getEconomics());
-        return "news/newsList";
-    }
 
     @GetMapping("/news/date/{newsDate}")
     public String readNewsByDate(@PathVariable("newsDate") String date, Model model){
