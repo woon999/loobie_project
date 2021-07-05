@@ -1,12 +1,22 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
     <div class="header" th:fragment="bodyHeader">
-        <ul class="nav nav-pills pull-right">
-<!--            <li>-->
-<!--                <a href="/">Home</a>-->
-<!--            </li>-->
-        </ul>
-        <a href="/">
-            <h3 class="text-primary">DOT NEWS</h3>
-        </a>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="/">
+                <h3 class="text-primary">DOT NEWS</h3>
+            </a>
+
+            <div th:if="${userName == null}">
+                <a class="btn btn-lg btn-primary" href="/oauth2/authorization/kakao">Kakao Login</a>
+
+            </div>
+            <div class="row" th:if="${userName != null}">
+                <div class="col">
+                    <p th:text="'login :'+ ${userName}"></p>
+                </div>
+                <div class="col">
+                    <a class="btn btn-lg btn-primary" href="/logout">logout</a>
+                </div>
+            </div>
+        </nav>
     </div>

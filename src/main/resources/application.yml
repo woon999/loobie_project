@@ -9,8 +9,9 @@ spring:
       repositories:
         bootstrap-mode: default
   jpa:
+    hibernate:
+      ddl-auto: create-drop
     show-sql: true
-    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
   h2:
     console:
       enabled: true
@@ -24,6 +25,15 @@ spring:
     jdbc:
       initialize-schema: always
       schema: classpath:org/springframework/session/jdbc/schema-h2.sql
+#  test OAuth
+#  security:
+#    oauth2:
+#      client:
+#        registration:
+#          kakao:
+#            client-id: test
+#            client-secret: test
+#            scope: profile_nickname, profile_image, account_email
 
 logging:
   level:
