@@ -32,10 +32,11 @@ dependencies {
 	testCompile('org.springframework.security:spring-security-test')
 	testCompile group: 'junit', name: 'junit', version: '4.12'
 	testImplementation group: 'io.findify', name: 's3mock_2.12', version: '0.2.5'
-
-
 	// aws s3
 	implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-aws', version: '2.2.6.RELEASE'
+
+	compile('org.springframework.boot:spring-boot-starter-oauth2-client')
+	compile('org.springframework.session:spring-session-jdbc')
 }
 
 test {

@@ -1,0 +1,38 @@
+spring:
+  datasource:
+    url: jdbc:h2:tcp://localhost/~/loobie
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  data:
+    jpa:
+      repositories:
+        bootstrap-mode: default
+  jpa:
+    show-sql: true
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+  h2:
+    console:
+      enabled: true
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+  profiles:
+    include: aws, oauth
+  session:
+    store-type: jdbc
+    jdbc:
+      initialize-schema: always
+      schema: classpath:org/springframework/session/jdbc/schema-h2.sql
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+    com:
+      amazonaws:
+        util:
+          EC2MetadataUtils: error
+
+aws:
+  s3:
+    bucket: s3-loobie
