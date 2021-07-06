@@ -182,7 +182,7 @@ public class NewsService {
                     }
                 }
             }
-            System.out.println(sb.toString());
+//            System.out.println(sb.toString());
         }finally {
             if(ois != null){
                 ois.close();

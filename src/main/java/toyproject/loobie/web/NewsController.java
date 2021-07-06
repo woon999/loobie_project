@@ -38,7 +38,7 @@ public class NewsController {
      */
     @PostMapping("/api/news/search/{date}")
     public void searchNewsByDate(){
-
+//        newsService.findByDate()
     }
 
 //    @GetMapping("/csv_download")

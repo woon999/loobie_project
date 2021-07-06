@@ -9,15 +9,18 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import toyproject.loobie.config.auth.dto.OAuthAttributes;
 import toyproject.loobie.config.auth.dto.SessionUser;
 import toyproject.loobie.domain.user.User;
 import toyproject.loobie.domain.user.UserRepository;
 
+import javax.persistence.NoResultException;
 import javax.servlet.http.HttpSession;
 import java.util.Collections;
+import java.util.Optional;
 
-@Service
+@Service @Transactional
 @RequiredArgsConstructor
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
     private final UserRepository userRepository;
@@ -51,4 +54,6 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         return userRepository.save(user);
 
     }
+
+
 }
