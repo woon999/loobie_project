@@ -4,14 +4,22 @@
 <body>
 <div class="container">
     <div th:replace="fragments/bodyHeader :: bodyHeader"/>
-    <form th:action="@{/searchNews}" th:object="${searchNews}" method="post">
+    <form>
         <div class="form-group mt-3">
-            <label th:for="name">뉴스 조회 날짜</label>
-            <input id="date" type="text" th:field="*{date}" class="form-control mt-2"
-                   placeholder="yyyyMMdd (ex. 20210524)를 입력하세요">
+            <label for="date"> 뉴스 조회 날짜 </label>
+            <input type="text" class="form-control" id="date" placeholder="yyyyMMdd (ex. 20210524)를 입력하세요">
         </div>
-        <button id="btn-search" type="button" class="btn btn-primary mt-3">Submit</button>
     </form>
+    <a href="/" role="button" class="btn btn-secondary mt-3">취소</a>
+    <button type="button" class="btn btn-primary mt-3" id="btn-search" >Submit</button>
+<!--    <form th:action="@{/searchNews}" th:object="${searchNews}" method="post">-->
+<!--        <div class="form-group mt-3">-->
+<!--            <label th:for="name">뉴스 조회 날짜</label>-->
+<!--            <input id="date" type="text" th:field="*{date}" class="form-control mt-2"-->
+<!--                   placeholder="yyyyMMdd (ex. 20210524)를 입력하세요">-->
+<!--        </div>-->
+<!--        <button type="button" class="btn btn-primary mt-3" id="btn-search" >Submit</button>-->
+<!--    </form>-->
     <br/>
     <div th:replace="fragments/footer :: footer" />
 </div> <!-- /container -->

@@ -28,18 +28,43 @@ public class NewsController {
     private String todayDate = date.format(dateTimeFormatter);
     private String todayDataFileName =  todayDate +".csv";
 
-    @GetMapping("/api/news/read")
-    public void s3ReadNews() throws IOException {
-        newsService.readBucketObject(todayDataFileName);
-    }
 
     /**
+     * Role: GUEST
      * 날짜로 뉴스 조회
      */
-    @PostMapping("/api/news/search/{date}")
+    @GetMapping("/api/news/search/{date}")
     public void searchNewsByDate(){
 //        newsService.findByDate()
     }
+
+    /**
+     * Role: GUEST
+     * 구독 등록하기
+     */
+    public void clientSave(){
+
+    }
+
+    /**
+     * Role: ADMIN
+     * 카카오톡 나에게 메시지 보내기
+     */
+    public void SendMessageToMe(){
+
+    }
+
+    /**
+     * Role: ADMIN
+     * 카카오톡 친구에게 메시지 보내기
+     */
+    public void SendMessageToFriend(){
+
+    }
+
+
+
+
 
 //    @GetMapping("/csv_download")
 //    public ResponseEntity<byte[]> downloadS3Object(){

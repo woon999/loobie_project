@@ -23,12 +23,23 @@
         <div th:if="${userName != null}">
             <p class="lead mt-5">오늘의 새로운 닷을 확인해보세요.</p>
             <p>
-                <a class="btn btn-lg btn-primary" href="/news/1">닷 읽기</a>
+                <a class="btn btn-lg btn-primary" href="/news/today">닷 읽기</a>
             </p>
             <p class="lead mt-5">원하는 날짜의 닷을 검색해보세요.</p>
             <p>
-                <a class="btn btn-lg btn-primary" href="/searchNews">닷 검색하기</a>
+                <a class="btn btn-lg btn-primary" href="/news/search">닷 검색하기</a>
             </p>
+
+            <p class="lead mt-5">관리자 전용 : 오늘의 뉴스 받아오기</p>
+            <p>
+                <a href="/news/s3read" class="btn btn-primary mt-3">뉴스 받아오기</a>
+            </p>
+            <div th:if="${message}" class="alert alert-info alert-dismissible fade show mt-3" role="alert">
+                <span th:text="${message}">완료</span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
         </div>
 
 
