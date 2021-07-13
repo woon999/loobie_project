@@ -27,45 +27,39 @@ public class IndexController {
     private String todayDate = date.format(dateTimeFormatter);
     private String todayDataFileName =  todayDate +".csv";
 
+    /*********************************** CLIENT ********************************************/
     /**
-     * home view
+     * client home view
      */
     @GetMapping("/")
-    public String home(Model model, @LoginUser SessionUser user){
-        if(user != null){
-            model.addAttribute("userName", user.getName());
-        }
-        return "home";
+    public String home(){
+        return "client/home";
     }
 
     /**
      * today newsList view
      */
     @GetMapping("/news/today")
-    public String readTodayNews(Model model){
-
+    public String readTodayNews(Model model, RedirectAttributes attributes){
         List<News> newsList = newsService.findByDate(todayDate);
         if(newsList.size()==0){
             // 오늘의 뉴스가 없을 경우 에러 처리
+            attributes.addFlashAttribute("message", "뉴스는 매일 오전 8시 업데이트됩니다.");
             return "redirect:/";
         }
         News news = newsList.get(0);
         model.addAttribute("articles", news.getArticles());
         model.addAttribute("economics", news.getEconomics());
-
         return "news/newsList";
     }
 
     /**
      * newsSearch view
      */
-    @GetMapping("/news/search")
-    public String searchNews(Model model, @LoginUser SessionUser user){
+    @GetMapping("/search")
+    public String searchNews(Model model){
         model.addAttribute("searchNews", new NewsReadRequestDto());
-        if(user != null){
-            model.addAttribute("userName", user.getName());
-        }
-        return "news/search";
+        return "client/search";
     }
 
 
@@ -87,24 +81,36 @@ public class IndexController {
         return "news/newsList";
     }
 
+
+/*********************************** ADMIN ********************************************/
     /**
-     * Role: ADMIN
-     * S3에서 뉴스 받아오기
+     * admin home view
+     */
+    @GetMapping("/admin")
+    public String adminHome(Model model, @LoginUser SessionUser user){
+        if(user != null){
+            model.addAttribute("userName", user.getName());
+        }
+        return "admin/home";
+    }
+
+    /**
+     * admin S3에서 뉴스 받아오기
      * TODO : 스케줄링 자동 설정
      */
-    @GetMapping("/news/s3read")
+    @GetMapping("/admin/s3read")
     public String s3ReadNews(RedirectAttributes attributes) throws IOException {
         List<News> newsList = newsService.findByDate(todayDate);
 
         // 이미 뉴스를 읽어왔을 경우 그냥 리턴
         if(newsList.size() != 0){
             attributes.addFlashAttribute("message", "이미 뉴스를 받아왔습니다.");
-            return "redirect:/";
+            return "redirect:/admin";
         }
 
         newsService.readBucketObject(todayDataFileName);
         attributes.addFlashAttribute("message", "뉴스 받아오기에 성공하였습니다.");
 
-        return "redirect:/";
+        return "redirect:/admin";
     }
 }

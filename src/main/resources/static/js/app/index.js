@@ -10,7 +10,7 @@ var main = {
         var date = $('#date').val();
 
         $.ajax({
-            type: 'GET',
+            type: 'POST',
             url: '/api/news/search/' + date,
             dataType: 'json',
             contentType:'application/json; charset=utf-8',
