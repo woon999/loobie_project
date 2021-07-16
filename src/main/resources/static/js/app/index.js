@@ -1,27 +1,33 @@
 var main = {
     init : function () {
         var _this = this;
-        $('#btn-search').on('click', function () {
-            _this.search();
+        $('#btn-save').on('click', function () {
+            _this.save();
         });
 
     },
-    search : function () {
-        var date = $('#date').val();
+
+    save : function () {
+        var data = {
+            name: $('#name').val(),
+            email: $('#email').val(),
+        };
 
         $.ajax({
             type: 'POST',
-            url: '/api/news/search/' + date,
+            url: '/api/v1/user',
             dataType: 'json',
             contentType:'application/json; charset=utf-8',
-            // data: JSON.stringify(data)
+            data: JSON.stringify(data),
+            success: function () {
+                localStorage.setItem('subscribe','1');
+            }
         }).done(function() {
-            alert('뉴스가 조회되었습니다.');
-            window.location.href = '/news/'+date;
+            alert('유저가 등록되었습니다.');
+            window.location.href = '/';
         }).fail(function (error) {
             alert(JSON.stringify(error));
         });
     },
-
 };
 main.init();

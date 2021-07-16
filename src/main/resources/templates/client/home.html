@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header :: header">
     <title>Hello</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta http-equiv="Content-Type" content="application/json; text/html; charset=UTF-8"/>
 </head>
 <body>
 
@@ -11,13 +11,7 @@
     <div class="jumbotron">
         <h1 class="mt-3 text-primary">DOT NEWS</h1>
         <div>
-            <p class="lead mt-5">매일 새로운 닷 뉴스를 받아보세요.</p>
-            <div class="input-group input-group-sm mb-3">
-                <input id="inputGroup-sizing-sm" type="text" class="form-control" placeholder="example@example.com" aria-label="Recipient's username" aria-describedby="emailHelp">
-                <div class="input-group-append">
-                    <button id="btn-email-save" class="btn btn-outline-secondary" type="button">입력</button>
-                </div>
-            </div>
+
             <p class="lead mt-5">오늘의 새로운 닷을 확인해보세요.</p>
             <p>
                 <a class="btn btn-lg btn-primary" href="/news/today">닷 읽기</a>
@@ -30,10 +24,30 @@
                 <a class="btn btn-lg btn-primary" href="/search">닷 검색하기</a>
             </p>
         </div>
+        <p class="lead mt-5">매일 새로운 닷 뉴스를 받아보세요.</p>
 
+        <form>
+            <div class="row">
+                <div class="col-2">
+                    <label for="name" class="form-label">이름</label>
+                    <input type="text"  class="form-control" id="name" placeholder="이름">
 
+                </div>
+                <div class="col">
+                    <label for="email" class="form-label">이메일</label>
+                    <input type="email" class="form-control" id="email" placeholder="이메일">
+                </div>
+                <div class="col-1">
+                    <button id="btn-save" type="button" class="btn btn-primary" style="font-size: small">등록</button>
+                </div>
+            </div>
+        </form>
     </div>
     <div th:replace="fragments/footer :: footer"/>
 </div> <!-- /container -->
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="/js/app/index.js"></script>
+
 </body>
 </html>

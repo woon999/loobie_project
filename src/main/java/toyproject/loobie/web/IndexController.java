@@ -1,27 +1,34 @@
 package toyproject.loobie.web;
 
 import lombok.RequiredArgsConstructor;
+import net.minidev.json.JSONObject;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import toyproject.loobie.config.auth.LoginUser;
 import toyproject.loobie.config.auth.dto.SessionUser;
 import toyproject.loobie.domain.news.News;
 import toyproject.loobie.service.NewsService;
+import toyproject.loobie.service.UserService;
 import toyproject.loobie.web.dto.NewsReadRequestDto;
+import toyproject.loobie.web.dto.UserSaveRequestDto;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
 public class IndexController {
 
     private final NewsService newsService;
+    private final UserService userService;
     private LocalDateTime date = LocalDateTime.now();
     private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
     private String todayDate = date.format(dateTimeFormatter);
@@ -62,8 +69,8 @@ public class IndexController {
         return "client/search";
     }
 
-
     /**
+     * TODO
      * {date} newsList view
      */
     @GetMapping("/news/{newsDate}")
@@ -82,7 +89,7 @@ public class IndexController {
     }
 
 
-/*********************************** ADMIN ********************************************/
+    /*********************************** ADMIN ********************************************/
     /**
      * admin home view
      */
