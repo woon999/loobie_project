@@ -1,6 +1,7 @@
 package toyproject.loobie.domain.news;
 
 import lombok.*;
+import toyproject.loobie.domain.BaseTimeEntity;
 import toyproject.loobie.domain.article.Article;
 import toyproject.loobie.domain.economic.Economic;
 
@@ -12,7 +13,7 @@ import java.util.List;
 @Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class News {
+public class News extends BaseTimeEntity {
 
     @Id @GeneratedValue
     @Column(name = "news_id")

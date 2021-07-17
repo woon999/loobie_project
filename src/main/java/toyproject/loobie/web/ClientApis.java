@@ -7,9 +7,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import toyproject.loobie.domain.news.News;
+import toyproject.loobie.service.NewsService;
 import toyproject.loobie.service.UserService;
+import toyproject.loobie.web.dto.NewsSearchRequestDto;
 import toyproject.loobie.web.dto.UserSaveRequestDto;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -18,6 +22,7 @@ import java.util.Optional;
 public class ClientApis {
 
     private final UserService userService;
+    private final NewsService newsService;
 
     /*********************************** CLIENT ********************************************/
     /**
@@ -36,8 +41,13 @@ public class ClientApis {
     /**
      * 날짜로 뉴스 조회
      */
-    @GetMapping("/api/news/search/{date}")
-    public void searchNewsByDate(){
-//        newsService.findByDate()
-    }
+//    @PostMapping("/api/v1/news/search")
+//    public String searchNewsByDate(@RequestBody NewsSearchRequestDto requestDto){
+//        List<News> newsList = newsService.findByDate(requestDto.getDate());
+//        if(newsList.size() == 0){
+//            // TODO: 뉴스 존재 x
+//        }
+//
+//        return "as";
+//    }
 }

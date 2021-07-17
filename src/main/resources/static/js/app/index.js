@@ -4,9 +4,11 @@ var main = {
         $('#btn-save').on('click', function () {
             _this.save();
         });
+        $('#btn-search').on('click', function () {
+            _this.search();
+        });
 
     },
-
     save : function () {
         var data = {
             name: $('#name').val(),
@@ -29,5 +31,17 @@ var main = {
             alert(JSON.stringify(error));
         });
     },
+    search : function () {
+        var date = $('#date').val();
+
+        $.ajax({
+            type: 'GET',
+        }).done(function() {
+            window.location.href = '/news/'+date;
+        }).fail(function (error) {
+            alert('해당 날짜의 뉴스는 존재하지 않습니다.');
+            alert(JSON.stringify(error));
+        });
+    }
 };
 main.init();
