@@ -1,6 +1,7 @@
 package toyproject.loobie.domain.article;
 
 import lombok.*;
+import toyproject.loobie.domain.BaseTimeEntity;
 import toyproject.loobie.domain.news.News;
 
 import javax.persistence.*;
@@ -9,7 +10,7 @@ import javax.persistence.*;
 @Table(name = "articles")
 @Getter @Setter
 //@NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Article {
+public class Article extends BaseTimeEntity {
 
     @Id @GeneratedValue
     @Column(name = "article_id")

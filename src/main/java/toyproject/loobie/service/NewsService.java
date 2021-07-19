@@ -47,6 +47,7 @@ public class NewsService {
     public News findOne(Long id) {
         return newsRepository.findOne(id);
     }
+
     @Transactional(readOnly = true)
     public List<News> findByDate(String date) {
         return newsRepository.findByDate(date);
@@ -182,7 +183,7 @@ public class NewsService {
                     }
                 }
             }
-            System.out.println(sb.toString());
+//            System.out.println(sb.toString());
         }finally {
             if(ois != null){
                 ois.close();

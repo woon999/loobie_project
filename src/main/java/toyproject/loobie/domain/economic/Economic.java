@@ -1,6 +1,7 @@
 package toyproject.loobie.domain.economic;
 
 import lombok.*;
+import toyproject.loobie.domain.BaseTimeEntity;
 import toyproject.loobie.domain.news.News;
 
 import javax.persistence.*;
@@ -8,7 +9,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "economics")
 @Getter @Setter
-public class Economic {
+public class Economic extends BaseTimeEntity {
 
     @Id @GeneratedValue
     private Long id;

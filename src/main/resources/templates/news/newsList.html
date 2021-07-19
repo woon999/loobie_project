@@ -1,9 +1,14 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header :: header" />
+<head>
+    <style>
+        tbody {font-size: medium;}
+    </style>
+</head>
 <body>
 <div class="container">
-    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <div th:replace="fragments/c_bodyHeader :: bodyHeader"/>
     <div class="jumbotron">
 
         <p class="lead mt-3">오늘의 해외 경제 지표</p>
@@ -30,9 +35,9 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th>카테고리</th>
-                <th>내용</th>
-                <th>링크</th>
+                <th class="col-1">카테고리</th>
+                <th class="col-5">내용</th>
+                <th class="col-1">링크</th>
             </tr>
             </thead>
             <tbody>
@@ -46,6 +51,7 @@
             </tbody>
         </table>
 
+        <a class="btn btn-outline-dark btn-lg mt-md-2" href="/">닷뉴스 구독하러가기</a>
 
     </div>
 

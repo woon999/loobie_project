@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header" />
+<body>
+<div class="container">
+    <div th:replace="fragments/c_bodyHeader :: bodyHeader"/>
+    <form>
+        <div class="form-group mt-3">
+            <label for="date"> 뉴스 조회 날짜 </label>
+            <input type="text" class="form-control" id="date" placeholder="yyyyMMdd (ex. 20210524)를 입력하세요">
+        </div>
+    </form>
+    <div th:if="${noDataMessage}" class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+        <span th:text="${noDataMessage}"></span>
+    </div>
+    <div class="mb-3">
+        <a href="/" role="button" class="btn btn-secondary mt-3">취소</a>
+        <button type="button" class="btn btn-primary mt-3" id="btn-search" >Submit</button>
+    </div>
+    <div th:replace="fragments/footer :: footer" />
+</div> <!-- /container -->
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="/js/app/index.js"></script>
+</body>
+</html>
