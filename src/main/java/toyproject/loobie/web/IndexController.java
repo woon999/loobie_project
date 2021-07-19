@@ -1,11 +1,8 @@
 package toyproject.loobie.web;
 
 import lombok.RequiredArgsConstructor;
-import net.minidev.json.JSONObject;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import toyproject.loobie.config.auth.LoginUser;
@@ -19,9 +16,7 @@ import toyproject.loobie.web.dto.UserSaveRequestDto;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -60,6 +55,25 @@ public class IndexController {
         return "news/newsList";
     }
 
+    @PostMapping("/user/subscribe")
+    public String clientSave(@RequestParam("name") String name,
+                             @RequestParam("email") String email,
+                             RedirectAttributes attributes){
+        if(userService.findByEmail(email)){
+            attributes.addFlashAttribute("subMessage", "이미 구독이 완료된 이메일입니다.");
+            return "redirect:/";
+        }
+
+        UserSaveRequestDto requestDto = UserSaveRequestDto.builder()
+                .name(name)
+                .email(email)
+                .build();
+        Long id = userService.save(requestDto);
+        System.out.println("###user 생성 " + id);
+        attributes.addFlashAttribute("subMessage", "구독이 완료되었습니다.");
+        return "redirect:/";
+    }
+
     /**
      * newsSearch view
      */
@@ -70,16 +84,15 @@ public class IndexController {
     }
 
     /**
-     * TODO
      * {date} newsList view
      */
     @GetMapping("/news/{newsDate}")
-    public String readNewsByDate(@PathVariable("newsDate") String date, Model model){
+    public String readNewsByDate(@PathVariable("newsDate") String date, Model model, RedirectAttributes attributes){
 
         List<News> newsList = newsService.findByDate(date);
         if(newsList.size() == 0){
-            // 오늘의 뉴스가 없을 경우 에러 처리
-            return "redirect:/";
+            attributes.addFlashAttribute("noDataMessage", "해당 날짜의 뉴스는 존재하지 않습니다.");
+            return "redirect:/search";
         }
         News news = newsList.get(0);
         model.addAttribute("articles", news.getArticles());

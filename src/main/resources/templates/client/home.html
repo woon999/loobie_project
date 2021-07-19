@@ -26,22 +26,29 @@
         </div>
         <p class="lead mt-5">매일 새로운 닷 뉴스를 받아보세요.</p>
 
-        <form>
+        <form  th:if="${subMessage==null}" role="form" action="/user/subscribe" method="post">
             <div class="row mb-3">
-                <div class="col-2">
-<!--                    <label for="name" class="form-label">이름</label>-->
-                    <input type="text"  class="form-control" id="name" placeholder="이름">
-
+                <div class="col-2 form-group">
+                    <input type="text" name="name" class="form-control" id="name"
+                           placeholder="이름" required>
                 </div>
-                <div class="col">
-<!--                    <label for="email" class="form-label">이메일</label>-->
-                    <input type="email" class="form-control" id="email" placeholder="이메일">
+                <div class="col form-group">
+                    <input type="email" name="email" class="form-control" id="email" aria-describedby="emailHelp"
+                           placeholder="example@example.com" required>
+                    <small id="emailHelp" class="form-text text-muted">
+                        구독할 이메일을 입력하세요.
+                    </small>
+                    <small class="invalid-feedback">이메일을 입력하세요.</small>
                 </div>
                 <div class="col-2">
-                    <button id="btn-save" type="button" class="btn btn-outline-dark btn-sm" style="font-size: small; width:100%; padding: .375rem .75rem">등록</button>
+                    <button type="submit" class="btn btn-outline-dark btn-sm"
+                            style="font-size: small; width:100%; padding: .375rem .75rem">등록</button>
                 </div>
             </div>
         </form>
+        <div th:if="${subMessage}" class="alert alert-info alert-dismissible fade show mt-3" role="alert">
+            <span th:text="${subMessage}">구독 완료</span>
+        </div>
     </div>
     <div th:replace="fragments/footer :: footer"/>
 </div> <!-- /container -->
