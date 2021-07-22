@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import toyproject.loobie.domain.BaseTimeEntity;
 
 import javax.persistence.*;
+import java.util.UUID;
 
 @Entity
 @Getter @NoArgsConstructor
@@ -28,6 +29,10 @@ public class User extends BaseTimeEntity{
     @Column(nullable = false)
     private Role role;
 
+    private String emailCheckToken;
+
+    private boolean emailVerified;
+
     @Builder
     public User(String name, String email, String profileImage, Role role) {
         this.name = name;
@@ -44,5 +49,9 @@ public class User extends BaseTimeEntity{
 
     public String getRoleKey(){
         return this.role.getKey();
+    }
+
+    public void generateEmailToken() {
+        this.emailCheckToken = UUID.randomUUID().toString();
     }
 }

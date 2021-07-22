@@ -20,6 +20,7 @@ spring:
     suffix: .html
   profiles:
     include: aws, oauth
+    active: local
   session:
     store-type: jdbc
     jdbc:

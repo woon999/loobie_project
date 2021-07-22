@@ -26,7 +26,7 @@
         </div>
         <p class="lead mt-5">매일 새로운 닷 뉴스를 받아보세요.</p>
 
-        <form  th:if="${subMessage==null}" role="form" action="/user/subscribe" method="post">
+        <form  th:if="${subMessage==null}" role="form" action="/subscribe" method="post">
             <div class="row mb-3">
                 <div class="col-2 form-group">
                     <input type="text" name="name" class="form-control" id="name"
@@ -49,6 +49,7 @@
         <div th:if="${subMessage}" class="alert alert-info alert-dismissible fade show mt-3" role="alert">
             <span th:text="${subMessage}">구독 완료</span>
         </div>
+
     </div>
     <div th:replace="fragments/footer :: footer"/>
 </div> <!-- /container -->

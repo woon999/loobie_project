@@ -5,15 +5,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import toyproject.loobie.config.auth.LoginUser;
-import toyproject.loobie.config.auth.dto.SessionUser;
 import toyproject.loobie.domain.news.News;
 import toyproject.loobie.service.NewsService;
-import toyproject.loobie.service.UserService;
 import toyproject.loobie.web.dto.NewsReadRequestDto;
-import toyproject.loobie.web.dto.UserSaveRequestDto;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -23,15 +18,14 @@ import java.util.List;
 public class IndexController {
 
     private final NewsService newsService;
-    private final UserService userService;
     private LocalDateTime date = LocalDateTime.now();
     private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
     private String todayDate = date.format(dateTimeFormatter);
-    private String todayDataFileName =  todayDate +".csv";
 
-    /*********************************** CLIENT ********************************************/
+
+/*********************************** ALL ********************************************/
     /**
-     * client home view
+     * home view
      */
     @GetMapping("/")
     public String home(){
@@ -55,24 +49,6 @@ public class IndexController {
         return "news/newsList";
     }
 
-    @PostMapping("/user/subscribe")
-    public String clientSave(@RequestParam("name") String name,
-                             @RequestParam("email") String email,
-                             RedirectAttributes attributes){
-        if(userService.findByEmail(email)){
-            attributes.addFlashAttribute("subMessage", "이미 구독이 완료된 이메일입니다.");
-            return "redirect:/";
-        }
-
-        UserSaveRequestDto requestDto = UserSaveRequestDto.builder()
-                .name(name)
-                .email(email)
-                .build();
-        Long id = userService.save(requestDto);
-        System.out.println("###user 생성 " + id);
-        attributes.addFlashAttribute("subMessage", "구독이 완료되었습니다.");
-        return "redirect:/";
-    }
 
     /**
      * newsSearch view
@@ -102,35 +78,4 @@ public class IndexController {
     }
 
 
-    /*********************************** ADMIN ********************************************/
-    /**
-     * admin home view
-     */
-    @GetMapping("/admin")
-    public String adminHome(Model model, @LoginUser SessionUser user){
-        if(user != null){
-            model.addAttribute("userName", user.getName());
-        }
-        return "admin/home";
-    }
-
-    /**
-     * admin S3에서 뉴스 받아오기
-     * TODO : 스케줄링 자동 설정
-     */
-    @GetMapping("/admin/s3read")
-    public String s3ReadNews(RedirectAttributes attributes) throws IOException {
-        List<News> newsList = newsService.findByDate(todayDate);
-
-        // 이미 뉴스를 읽어왔을 경우 그냥 리턴
-        if(newsList.size() != 0){
-            attributes.addFlashAttribute("message", "이미 뉴스를 받아왔습니다.");
-            return "redirect:/admin";
-        }
-
-        newsService.readBucketObject(todayDataFileName);
-        attributes.addFlashAttribute("message", "뉴스 받아오기에 성공하였습니다.");
-
-        return "redirect:/admin";
-    }
 }
