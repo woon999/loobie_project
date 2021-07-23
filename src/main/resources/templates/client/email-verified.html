@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <title>Hello</title>
+    <meta http-equiv="Content-Type" content="application/json; text/html; charset=UTF-8"/>
+</head>
+<body>
+<div class="container">
+    <div th:replace="fragments/c_bodyHeader :: bodyHeader"/>
+    <div class="jumbotron">
+        <p class="lead mt-5">닷 뉴스 이메일 확인</p>
+        <div th:if="${error}">
+            <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                이메일 확인 링크가 정확하지 않습니다.
+            </div>
+        </div>
+
+        <div th:if="${error == null}">
+            <div class="alert alert-info alert-dismissible fade show mt-3" role="alert">
+                <span th:text="${name}"></span>님 구독이 완료되었습니다.
+            </div>
+        </div>
+    </div>
+    <div th:replace="fragments/footer :: footer"/>
+</div> <!-- /container -->
+</body>
+</html>

@@ -1,4 +1,4 @@
-package toyproject.loobie;
+package toyproject.loobie.config.mail;
 
 
 import lombok.extern.slf4j.Slf4j;

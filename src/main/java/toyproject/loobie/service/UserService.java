@@ -50,6 +50,14 @@ public class UserService {
         sendSubscribeConfirmEmail(newUser);
     }
 
+    @Transactional
+    public void emailVerified(String email) {
+        User user = userRepository.findByEmail(email)
+                .map(entity -> entity.emailVerified(true))
+                .orElseThrow();
+        userRepository.save(user);
+    }
+
     // 구독 유저 등록
     private User saveSubscribeUser(@RequestParam("name") String name, @RequestParam("email") String email) {
         UserSaveRequestDto requestDto = UserSaveRequestDto.builder()
@@ -70,15 +78,6 @@ public class UserService {
         mailMessage.setSubject("닷 뉴스, 이메일 인증");
         mailMessage.setText("/check-email-token?token=" + newUser.getEmailCheckToken() +"&email=" + newUser.getEmail());
         javaMailSender.send(mailMessage);
-    }
-
-
-    @Transactional
-    public void emailVerified(String email) {
-        User user = userRepository.findByEmail(email)
-                .map(entity -> entity.emailVerified(true))
-                .orElseThrow();
-        userRepository.save(user);
     }
 
 }

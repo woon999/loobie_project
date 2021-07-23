@@ -48,19 +48,18 @@ public class UserController {
         if(checkUser==null){
             // 유저가 존재하지 않습니다.
             model.addAttribute("error", "wrong.email");
-            return "redirect:/";
+            return "client/email-verified";
         }
 
-        if(checkUser.getEmailCheckToken().equals(token)){
+        if(!checkUser.getEmailCheckToken().equals(token)){
             // 토큰이 일치하지 않습니다.
             model.addAttribute("error", "wrong.token");
-            return "redirect:/";
+            return "client/email-verified";
         }
 
-        // TODO : 인증절차
         userService.emailVerified(email);
         model.addAttribute("name", checkUser.getName());
-        return "redirect:/";
+        return "client/email-verified";
     }
 
 }
