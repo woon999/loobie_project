@@ -18,7 +18,7 @@ import toyproject.loobie.web.dto.UserSaveRequestDto;
 public class UserController {
 
     private final UserService userService;
-    private final JavaMailSender javaMailSender;
+
 
     /**
      * 유저 구독하기
@@ -32,23 +32,34 @@ public class UserController {
             return "redirect:/";
         }
 
-        UserSaveRequestDto requestDto = UserSaveRequestDto.builder()
-                .name(name)
-                .email(email)
-                .build();
-        Long newId = userService.save(requestDto);
-//        System.out.println("###user 생성 " + id);
-
-        //TODO : 인증 이메일 전송
-        User newUser = userService.findOne(newId);
-        newUser.generateEmailToken();
-        SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setTo(newUser.getEmail());
-        mailMessage.setSubject("닷 뉴스, 이메일 인증");
-        mailMessage.setText("/check-email-token?token=" + newUser.getEmailCheckToken() +"&email=" + newUser.getEmail());
-        javaMailSender.send(mailMessage);
+        userService.processNewSubscriber(name, email);
 
         attributes.addFlashAttribute("subMessage", "해당 이메일로 인증 메일이 발송되었습니다.");
+        return "redirect:/";
+    }
+
+
+    /**
+     * email 토큰 발급
+     */
+    @GetMapping("/check-email-token")
+    public String checkEmailToken(String token, String email, Model model){
+        User checkUser = userService.findByEmail(email);
+        if(checkUser==null){
+            // 유저가 존재하지 않습니다.
+            model.addAttribute("error", "wrong.email");
+            return "redirect:/";
+        }
+
+        if(checkUser.getEmailCheckToken().equals(token)){
+            // 토큰이 일치하지 않습니다.
+            model.addAttribute("error", "wrong.token");
+            return "redirect:/";
+        }
+
+        // TODO : 인증절차
+        userService.emailVerified(email);
+        model.addAttribute("name", checkUser.getName());
         return "redirect:/";
     }
 

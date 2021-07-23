@@ -54,4 +54,9 @@ public class User extends BaseTimeEntity{
     public void generateEmailToken() {
         this.emailCheckToken = UUID.randomUUID().toString();
     }
+
+    public User emailVerified(boolean flag){
+        this.emailVerified = flag;
+        return this;
+    }
 }
