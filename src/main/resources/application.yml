@@ -38,3 +38,7 @@ logging:
 aws:
   s3:
     bucket: s3-loobie
+
+app:
+  host: http://localhost:8080
+  

@@ -4,6 +4,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
+import toyproject.loobie.config.AppProperties;
 import toyproject.loobie.domain.user.User;
 import toyproject.loobie.domain.user.UserRepository;
 import toyproject.loobie.web.dto.EmailMessageDto;
@@ -19,6 +22,8 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final EmailService emailService;
+    private final TemplateEngine templateEngine;
+    private final AppProperties appProperties;
 
     // 유저 저장
     @Transactional
@@ -64,17 +69,26 @@ public class UserService {
                 .email(email)
                 .build();
         Long newId = save(requestDto);
-        log.info("###user 생성 " + newId);
+        log.info("#user 등록 :  " + newId);
 
         return findOne(newId);
     }
 
     // 구독 확인 메일 전송
     private void sendSubscribeConfirmEmail(User newUser) {
+        Context context = new Context();
+        context.setVariable("link", "/check-email-token?token=" + newUser.getEmailCheckToken() +"&email=" + newUser.getEmail());
+        context.setVariable("name", newUser.getName());
+        context.setVariable("linkName", "이메일 구독 확인하기");
+        context.setVariable("message", "해당 링크를 통해서 닷 뉴스 구독을 확인해주세요.");
+        context.setVariable("host", appProperties.getHost());
+
+        String message = templateEngine.process("mail/simple-link", context);
+
         EmailMessageDto emailMessageDto =  EmailMessageDto.builder()
                                             .to(newUser.getEmail())
-                                            .subject("닷 뉴스, 이메일 인증")
-                                            .message("/check-email-token?token=" + newUser.getEmailCheckToken() +"&email=" + newUser.getEmail())
+                                            .subject("닷 뉴스, 이메일 구독 안내")
+                                            .message(message)
                                             .build();
 
         emailService.sendEmail(emailMessageDto);
