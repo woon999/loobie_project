@@ -1,8 +1,6 @@
 package toyproject.loobie.web;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import toyproject.loobie.domain.user.User;
 import toyproject.loobie.service.UserService;
-import toyproject.loobie.web.dto.UserSaveRequestDto;
 
 @Controller
 @RequiredArgsConstructor

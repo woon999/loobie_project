@@ -2,12 +2,11 @@ package toyproject.loobie.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 import toyproject.loobie.domain.user.User;
 import toyproject.loobie.domain.user.UserRepository;
+import toyproject.loobie.web.dto.EmailMessageDto;
 import toyproject.loobie.web.dto.UserSaveRequestDto;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +18,7 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final JavaMailSender javaMailSender;
+    private final EmailService emailService;
 
     // 유저 저장
     @Transactional
@@ -67,17 +66,18 @@ public class UserService {
         Long newId = save(requestDto);
         log.info("###user 생성 " + newId);
 
-        //TODO : 인증 이메일 전송
         return findOne(newId);
     }
 
     // 구독 확인 메일 전송
     private void sendSubscribeConfirmEmail(User newUser) {
-        SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setTo(newUser.getEmail());
-        mailMessage.setSubject("닷 뉴스, 이메일 인증");
-        mailMessage.setText("/check-email-token?token=" + newUser.getEmailCheckToken() +"&email=" + newUser.getEmail());
-        javaMailSender.send(mailMessage);
+        EmailMessageDto emailMessageDto =  EmailMessageDto.builder()
+                                            .to(newUser.getEmail())
+                                            .subject("닷 뉴스, 이메일 인증")
+                                            .message("/check-email-token?token=" + newUser.getEmailCheckToken() +"&email=" + newUser.getEmail())
+                                            .build();
+
+        emailService.sendEmail(emailMessageDto);
     }
 
 }

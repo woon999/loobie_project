@@ -6,13 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import toyproject.loobie.domain.user.User;
+import toyproject.loobie.service.EmailService;
 import toyproject.loobie.service.UserService;
+import toyproject.loobie.web.dto.EmailMessageDto;
 import toyproject.loobie.web.dto.UserSaveRequestDto;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -33,7 +33,7 @@ public class UserControllerTest {
     @Autowired
     private UserService userService;
     @MockBean
-    JavaMailSender javaMailSender;
+    EmailService emailService;
 
     @Test
     public void 유저_구독하기() throws Exception{
@@ -47,7 +47,7 @@ public class UserControllerTest {
 
         User user = userService.findByEmail("abc@naver.com");
         assertThat(user.getName()).isEqualTo(name);
-        then(javaMailSender).should().send(any(SimpleMailMessage.class));
+        then(emailService).should().sendEmail(any(EmailMessageDto.class));
     }
 
     @Test
