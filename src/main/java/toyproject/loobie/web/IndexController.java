@@ -46,7 +46,7 @@ public class IndexController {
         News news = newsList.get(0);
         model.addAttribute("articles", news.getArticles());
         model.addAttribute("economics", news.getEconomics());
-        return "news/newsList";
+        return "news/news-list";
     }
 
 
@@ -74,7 +74,7 @@ public class IndexController {
         model.addAttribute("articles", news.getArticles());
         model.addAttribute("economics", news.getEconomics());
 
-        return "news/newsList";
+        return "news/news-list";
     }
 
 

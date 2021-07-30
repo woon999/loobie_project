@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 import toyproject.loobie.config.AppProperties;
+import toyproject.loobie.domain.news.News;
 import toyproject.loobie.domain.user.User;
 import toyproject.loobie.domain.user.UserRepository;
 import toyproject.loobie.web.dto.EmailMessageDto;
@@ -14,6 +15,7 @@ import toyproject.loobie.web.dto.UserSaveRequestDto;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service @Slf4j
@@ -36,11 +38,16 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
+
+    @Transactional(readOnly = true)
     public User findByEmail(String email) {
         Optional<User> user = userRepository.findByEmail(email);
-        if(user.isEmpty()){
+        if (user.isEmpty()) {
             return null;
-        }else{
+        } else {
             return user.orElseThrow();
         }
     }
@@ -90,6 +97,24 @@ public class UserService {
                                             .subject("닷 뉴스, 이메일 구독 안내")
                                             .message(message)
                                             .build();
+
+        emailService.sendEmail(emailMessageDto);
+    }
+
+
+    // 뉴스 메일 전송
+    public void sendNewsEmail(String email, News news) {
+        Context context = new Context();
+        context.setVariable("articles", news.getArticles());
+        context.setVariable("economics", news.getEconomics());
+        context.setVariable("host", appProperties.getHost());
+        String message = templateEngine.process("news/news-list", context);
+
+        EmailMessageDto emailMessageDto =  EmailMessageDto.builder()
+                .to(email)
+                .subject(news.getDate()+ ". 오늘의 헤드라인 뉴스")
+                .message(message)
+                .build();
 
         emailService.sendEmail(emailMessageDto);
     }
