@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<div style="width:100%; padding:40px 0; background-color:#f8f8f8; margin: 0 auto;">
+    <div>
+        <h1 style="text-align: center; margin: 0px auto; width: 94%; max-width: 490px; padding: 20px 0;
+                font-family: -apple-system, BlinkMacSystemFont, 'Roboto', Helvetica Neue, sans-serif; color: #000000;">
+            닷 뉴스</h1>
+        <table style="align-content: center; margin: 0px auto; width: 94%; max-width: 490px;">
+            <h2 style="text-align: center; margin: 0px auto; width: 94%; max-width: 490px; padding: 20px 0;
+                font-family: -apple-system, BlinkMacSystemFont, 'Roboto', Helvetica Neue, sans-serif; color: #000000;">
+                오늘의 해외 경제 지표</h2>
+            <thead>
+            <tr>
+                <th>이름</th>
+                <th>지수</th>
+                <th>변동성</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="economic : ${economics}">
+                <td th:text="${economic.type}"
+                    style="text-align: center;padding: 6px 0; font-size: 12px; font-family: -apple-system, BlinkMacSystemFont, 'Roboto', Helvetica Neue, sans-serif; color: #000000; font-weight: 300; letter-spacing: 0.06px"></td>
+                <td th:text="${economic.index}"
+                    style="text-align: center;padding: 6px 0; font-size: 12px; font-family: -apple-system, BlinkMacSystemFont, 'Roboto', Helvetica Neue, sans-serif; color: #000000; font-weight: 300; letter-spacing: 0.06px"></td>
+                <td th:text="${economic.changeIndex} + ' / ' + ${economic.changeRate}+'%'"
+                    style="text-align: center;padding: 6px 0; font-size: 12px; font-family: -apple-system, BlinkMacSystemFont, 'Roboto', Helvetica Neue, sans-serif; color: #000000; font-weight: 300; letter-spacing: 0.06px"></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <hr/>
+
+        <table style="align-content: center; margin: 0px auto; width: 94%; max-width: 490px;">
+            <h2 style="text-align: center; margin: 0px auto; width: 94%; max-width: 490px; padding: 20px 0;
+                font-family: -apple-system, BlinkMacSystemFont, 'Roboto', Helvetica Neue, sans-serif; color: #000000;">
+                오늘의 헤드라인 뉴스</h2>
+            <thead>
+            <tr>
+                <th>카테고리</th>
+                <th style="width: 80%">내용</th>
+                <th>링크</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="article : ${articles}">
+                <td th:text="${article.type}"
+                    style="text-align: center; padding: 6px 0; font-size: 8px; font-family: -apple-system, BlinkMacSystemFont, 'Roboto', Helvetica Neue, sans-serif; color: #000000; font-weight: 300; letter-spacing: 0.06px"></td>
+                <td th:text="${article.newsContent}"
+                    style="padding: 6px 0; font-size: 12px; font-family: -apple-system, BlinkMacSystemFont, 'Roboto', Helvetica Neue, sans-serif; color: #000000; font-weight: 300; letter-spacing: 0.06px"></td>
+                <td style="padding: 6px 0; font-size: 12px;  font-family: -apple-system, BlinkMacSystemFont, 'Roboto', Helvetica Neue, sans-serif; color: #000000; font-weight: 300; letter-spacing: 0.06px">
+                    <a th:href="@{${article.newsLink}}">링크</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+    <br/>
+    <p style="text-align: center; margin: 0px auto; width: 94%; max-width: 630px;">&copy; DOT NEWS ALPHA 2021</p>
+</div> <!-- /container -->
+</body>
+</html>

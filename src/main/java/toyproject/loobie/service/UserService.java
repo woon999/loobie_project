@@ -108,7 +108,7 @@ public class UserService {
         context.setVariable("articles", news.getArticles());
         context.setVariable("economics", news.getEconomics());
         context.setVariable("host", appProperties.getHost());
-        String message = templateEngine.process("news/news-list", context);
+        String message = templateEngine.process("mail/email-news-form", context);
 
         EmailMessageDto emailMessageDto =  EmailMessageDto.builder()
                 .to(email)
