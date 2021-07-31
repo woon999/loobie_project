@@ -10,20 +10,26 @@
     <div th:replace="fragments/a_bodyHeader :: bodyHeader"/>
     <div class="jumbotron">
         <h1 class="mt-3 text-primary">DOT NEWS</h1>
-        <div>
-            <p class="lead mt-5">오늘의 새로운 닷을 확인해보세요.</p>
-            <p>
-                <a class="btn btn-lg btn-primary" href="/news/today">닷 읽기</a>
-            </p>
-        </div>
-
         <div th:if="${userName != null}">
             <p class="lead mt-5">관리자 전용 : 오늘의 뉴스 받아오기</p>
             <p>
                 <a href="/admin/s3read" class="btn btn-primary mt-3">뉴스 받아오기</a>
             </p>
-            <div th:if="${message}" class="alert alert-info alert-dismissible fade show mt-3" role="alert">
-                <span th:text="${message}"></span>
+            <div th:if="${readMessage}" class="alert alert-info alert-dismissible fade show mt-3" role="alert">
+                <span th:text="${readMessage}"></span>
+            </div>
+        </div>
+
+        <div th:if="${userName != null}">
+            <p class="lead mt-5">관리자 전용 : 구독자 이메일 뉴스 보내기</p>
+            <p>
+                <a href="/admin/send-news" class="btn btn-primary mt-3">뉴스 이메일로 보내기</a>
+            </p>
+            <div th:if="${sendMessage}" class="alert alert-info alert-dismissible fade show mt-3" role="alert">
+                <span th:text="${sendMessage}"></span>
+            </div>
+            <div th:if="${noDataMessage}" class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                <span th:text="${noDataMessage}"></span>
             </div>
         </div>
 

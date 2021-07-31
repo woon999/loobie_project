@@ -20,20 +20,12 @@ spring:
     suffix: .html
   profiles:
     include: aws, oauth
+    active: local
   session:
     store-type: jdbc
     jdbc:
       initialize-schema: always
       schema: classpath:org/springframework/session/jdbc/schema-h2.sql
-#  test OAuth
-#  security:
-#    oauth2:
-#      client:
-#        registration:
-#          kakao:
-#            client-id: test
-#            client-secret: test
-#            scope: profile_nickname, profile_image, account_email
 
 logging:
   level:
@@ -46,3 +38,7 @@ logging:
 aws:
   s3:
     bucket: s3-loobie
+
+app:
+  host: http://localhost:8080
+  
