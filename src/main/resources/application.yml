@@ -4,17 +4,14 @@ spring:
     username: sa
     password:
     driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
   data:
     jpa:
       repositories:
         bootstrap-mode: default
-  jpa:
-    hibernate:
-      ddl-auto: create-drop
-    show-sql: true
-  h2:
-    console:
-      enabled: true
   thymeleaf:
     prefix: classpath:/templates/
     suffix: .html
