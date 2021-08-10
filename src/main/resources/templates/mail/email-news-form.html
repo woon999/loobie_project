@@ -23,7 +23,7 @@
             <tr th:each="economic : ${economics}">
                 <td th:text="${economic.type}"
                     style="text-align: center;padding: 6px 0; font-size: 12px; font-family: -apple-system, BlinkMacSystemFont, 'Roboto', Helvetica Neue, sans-serif; color: #000000; font-weight: 300; letter-spacing: 0.06px"></td>
-                <td th:text="${economic.index}"
+                <td th:text="${economic.eIndex}"
                     style="text-align: center;padding: 6px 0; font-size: 12px; font-family: -apple-system, BlinkMacSystemFont, 'Roboto', Helvetica Neue, sans-serif; color: #000000; font-weight: 300; letter-spacing: 0.06px"></td>
                 <td th:text="${economic.changeIndex} + ' / ' + ${economic.changeRate}+'%'"
                     style="text-align: center;padding: 6px 0; font-size: 12px; font-family: -apple-system, BlinkMacSystemFont, 'Roboto', Helvetica Neue, sans-serif; color: #000000; font-weight: 300; letter-spacing: 0.06px"></td>

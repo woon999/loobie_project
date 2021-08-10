@@ -23,7 +23,7 @@
             <tbody>
             <tr th:each="economic : ${economics}">
                 <td th:text="${economic.type}"></td>
-                <td th:text="${economic.index}"></td>
+                <td th:text="${economic.eIndex}"></td>
                 <td th:text="${economic.changeIndex} + ' / ' + ${economic.changeRate}+'%'"></td>
             </tr>
             </tbody>

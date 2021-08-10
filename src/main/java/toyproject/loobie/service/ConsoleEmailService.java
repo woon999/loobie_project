@@ -10,6 +10,6 @@ import toyproject.loobie.web.dto.EmailMessageDto;
 public class ConsoleEmailService implements EmailService{
     @Override
     public void sendEmail(EmailMessageDto emailMessage) {
-        log.info("sent email: {}", emailMessage.getMessage());
+        log.info("local sent email: {}", emailMessage.getSubject());
     }
 }

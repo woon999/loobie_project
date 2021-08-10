@@ -12,13 +12,14 @@ import javax.persistence.*;
 public class Economic extends BaseTimeEntity {
 
     @Id @GeneratedValue
+    @Column(name = "economic_id")
     private Long id;
 
     // ENUM 환율, 나스닥, SP500
     @Enumerated(EnumType.STRING)
     private EconomicCategory type;
 
-    private String index;
+    private String eIndex;
     private String changeIndex;
     private String changeRate;
 
@@ -30,9 +31,9 @@ public class Economic extends BaseTimeEntity {
     }
 
     @Builder
-    public Economic(EconomicCategory type, String index, String changeIndex, String changeRate, News news) {
+    public Economic(EconomicCategory type, String eIndex, String changeIndex, String changeRate, News news) {
         this.type = type;
-        this.index = index;
+        this.eIndex = eIndex;
         this.changeIndex = changeIndex;
         this.changeRate = changeRate;
         this.news = news;

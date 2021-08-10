@@ -14,14 +14,14 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class EconomicSaveRequestDto {
 
-    private String index;
+    private String eIndex;
     private String changeIndex;
     private String changeRate;
     private News news;
 
     @Builder
-    public EconomicSaveRequestDto(String index, String changeIndex, String changeRate, News news) {
-        this.index = index;
+    public EconomicSaveRequestDto(String eIndex, String changeIndex, String changeRate, News news) {
+        this.eIndex = eIndex;
         this.changeIndex = changeIndex;
         this.changeRate = changeRate;
         this.news = news;
@@ -29,7 +29,7 @@ public class EconomicSaveRequestDto {
 
     public Economic toEntity(){
         return Economic.builder()
-                .index(index)
+                .eIndex(eIndex)
                 .changeIndex(changeIndex)
                 .changeRate(changeRate)
                 .news(news)

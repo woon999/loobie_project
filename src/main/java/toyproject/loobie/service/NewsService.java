@@ -153,7 +153,7 @@ public class NewsService {
                             String[] pData = economicDataProcessing().split(",");
 
                             EconomicSaveRequestDto requestDto = EconomicSaveRequestDto.builder()
-                                    .index(pData[0])
+                                    .eIndex(pData[0])
                                     .changeIndex(pData[1])
                                     .changeRate(pData[2])
                                     .news(insertNews)
@@ -164,7 +164,7 @@ public class NewsService {
                             String[] pData = economicDataProcessing().split(",");
 
                             EconomicSaveRequestDto requestDto = EconomicSaveRequestDto.builder()
-                                    .index(pData[0])
+                                    .eIndex(pData[0])
                                     .changeIndex(pData[1])
                                     .changeRate(pData[2])
                                     .news(insertNews)
@@ -175,7 +175,7 @@ public class NewsService {
                             String[] pData = economicDataProcessing().split(",");
 
                             EconomicSaveRequestDto requestDto = EconomicSaveRequestDto.builder()
-                                    .index(pData[0])
+                                    .eIndex(pData[0])
                                     .changeIndex(pData[1])
                                     .changeRate(pData[2])
                                     .news(insertNews)
