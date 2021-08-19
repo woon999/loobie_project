@@ -34,7 +34,9 @@ if __name__ == "__main__":
     now = datetime.datetime.now()
     now_date = now.strftime('%Y%m%d')
     file_name = now_date + ".csv"
-    file_path = f"data/{file_name}"
+#     file_path = f"data/{file_name}"
+    # ec2 절대경로
+    file_path = f"/home/ec2-user/app/data/{file_name}"
 
     s3_url = upload('s3-loobie', file_path)
     print(s3_url)

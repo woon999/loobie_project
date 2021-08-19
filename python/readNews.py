@@ -16,7 +16,9 @@ nowDate = now.strftime('%Y년 %m월 %d일 (%a)')
 
 ## CSV 파일 생성
 fileDate = now.strftime('%Y%m%d')
-filename = f"data/{fileDate}.csv"
+# filename = f"data/{fileDate}.csv"
+#ec2 절대경로
+filename = f"/home/ec2-user/app/data/{fileDate}.csv"
 f = open(filename, "w", encoding="utf8", newline="")
 writer = csv.writer(f)
 
