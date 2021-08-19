@@ -1,0 +1,13 @@
+# local 환경
+app:
+  host: http://localhost:8080
+server:
+  port: 8080
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+    com:
+      amazonaws:
+        util:
+          EC2MetadataUtils: error

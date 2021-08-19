@@ -39,9 +39,7 @@ out/
 ##python
 python/.env
 
-application-aws.yml
 application-dev.yml
-application-oauth.yml
 application-common.yml
-application-prod.yml
+application-real-db.yml
 

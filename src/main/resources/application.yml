@@ -1,7 +1,5 @@
 spring:
   profiles:
     group:
-      "common" : "aws, oauth"
       "default": "local, common"
       "dev": "dev, common"
-      "prod": "prod, common"
