@@ -71,7 +71,7 @@ public class NewsService {
      * S3 bucket 객체 파일 읽어서 저장하기 (csv)
      */
     @Transactional
-    public void readBucketObject(String storedFileName) throws IOException {
+    public void readAndSaveBucketObject(String storedFileName) throws IOException {
         S3Object o = amazonS3.getObject(new GetObjectRequest(bucket, storedFileName));
         S3ObjectInputStream ois = null;
         BufferedReader br = null;
@@ -84,6 +84,7 @@ public class NewsService {
             br = new BufferedReader (new InputStreamReader(ois, "UTF-8"));
             StringBuilder sb = new StringBuilder();
             String line;
+            String date;
             Long newsId = 0L;
             while ((line = br.readLine()) != null) {
                 // Store 1 record in an array separated by commas
@@ -91,7 +92,8 @@ public class NewsService {
                 News news = new News();
 
                 if(data[0].equals("N")){
-                    newsId = create(news, todayDate);
+                    date = storedFileName.substring(0,8);
+                    newsId = create(news, date);
                 }
                 else{
 //                    int idx =Integer.parseInt(data[0]);
@@ -151,7 +153,7 @@ public class NewsService {
                             String[] pData = economicDataProcessing().split(",");
 
                             EconomicSaveRequestDto requestDto = EconomicSaveRequestDto.builder()
-                                    .index(pData[0])
+                                    .eIndex(pData[0])
                                     .changeIndex(pData[1])
                                     .changeRate(pData[2])
                                     .news(insertNews)
@@ -162,7 +164,7 @@ public class NewsService {
                             String[] pData = economicDataProcessing().split(",");
 
                             EconomicSaveRequestDto requestDto = EconomicSaveRequestDto.builder()
-                                    .index(pData[0])
+                                    .eIndex(pData[0])
                                     .changeIndex(pData[1])
                                     .changeRate(pData[2])
                                     .news(insertNews)
@@ -173,7 +175,7 @@ public class NewsService {
                             String[] pData = economicDataProcessing().split(",");
 
                             EconomicSaveRequestDto requestDto = EconomicSaveRequestDto.builder()
-                                    .index(pData[0])
+                                    .eIndex(pData[0])
                                     .changeIndex(pData[1])
                                     .changeRate(pData[2])
                                     .news(insertNews)

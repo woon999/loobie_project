@@ -36,6 +36,10 @@ out/
 ### VS Code ###
 .vscode/
 
-application-aws.yml
+##python
+python/.env
+
 application-dev.yml
-application-oauth.yml
+application-common.yml
+application-real-db.yml
+

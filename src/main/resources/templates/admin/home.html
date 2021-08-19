@@ -21,6 +21,27 @@
         </div>
 
         <div th:if="${userName != null}">
+            <p class="lead mt-5">관리자 전용 : 날짜로 뉴스 받아오기</p>
+
+            <form  th:if="${dateReadMessage==null}" role="form" action="/admin/s3read" method="post">
+                <div class="row mb-3">
+                    <div class="col form-group" style="width: 80%">
+                        <input type="text" name="newsDate" class="form-control" id="newsDate"
+                               placeholder="yyyyMMdd (ex. 20210524)를 입력하세요" srequired>
+                    </div>
+
+                    <div class="col-2">
+                        <button type="submit" class="btn btn-outline-dark btn-sm"
+                                style="font-size: small; width:100%; padding: .375rem .75rem">읽어오기</button>
+                    </div>
+                </div>
+            </form>
+            <div th:if="${dateReadMessage}" class="alert alert-info alert-dismissible fade show mt-3" role="alert">
+                <span th:text="${dateReadMessage}"></span>
+            </div>
+        </div>
+
+        <div th:if="${userName != null}">
             <p class="lead mt-5">관리자 전용 : 구독자 이메일 뉴스 보내기</p>
             <p>
                 <a href="/admin/send-news" class="btn btn-primary mt-3">뉴스 이메일로 보내기</a>
@@ -37,5 +58,9 @@
     </div>
     <div th:replace="fragments/footer :: footer"/>
 </div> <!-- /container -->
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="/js/app/index.js"></script>
 </body>
 </html>

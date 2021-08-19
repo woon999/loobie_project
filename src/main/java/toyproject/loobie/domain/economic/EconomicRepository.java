@@ -20,7 +20,7 @@ public class EconomicRepository {
     public Long saveByCategory(EconomicSaveRequestDto requestDto, EconomicCategory category){
         Economic economic = Economic.builder()
                 .news(requestDto.getNews())
-                .index(requestDto.getIndex())
+                .eIndex(requestDto.getEIndex())
                 .changeIndex(requestDto.getChangeIndex())
                 .changeRate(requestDto.getChangeRate())
                 .type(category)

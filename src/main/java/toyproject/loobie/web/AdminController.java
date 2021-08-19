@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import toyproject.loobie.config.auth.LoginUser;
 import toyproject.loobie.config.auth.dto.SessionUser;
@@ -55,8 +57,30 @@ public class AdminController {
             return "redirect:/admin";
         }
 
-        newsService.readBucketObject(todayDataFileName);
+        // TODO : S3 파일 없을 경우 예외처리
+        newsService.readAndSaveBucketObject(todayDataFileName);
         attributes.addFlashAttribute("readMessage", "뉴스 받아오기에 성공하였습니다.");
+
+        return "redirect:/admin";
+    }
+
+    /**
+     * admin S3에서 date로 조회하여 뉴스 받아오기
+     */
+    @PostMapping("/admin/s3read")
+    public String s3ReadNewsByDate(@RequestParam("newsDate") String date, RedirectAttributes attributes) throws IOException {
+        List<News> newsList = newsService.findByDate(date);
+
+        // 이미 뉴스를 읽어왔을 경우 그냥 리턴
+        if(newsList.size() != 0){
+            attributes.addFlashAttribute("dateReadMessage", "이미 뉴스를 받아왔습니다.");
+            return "redirect:/admin";
+        }
+
+        // TODO : S3 파일 없을 경우 예외처리
+        String fileName =  date +".csv";
+        newsService.readAndSaveBucketObject(fileName);
+        attributes.addFlashAttribute("dateReadMessage", "뉴스 받아오기에 성공하였습니다.");
 
         return "redirect:/admin";
     }

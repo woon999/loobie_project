@@ -26,7 +26,6 @@ public class NewsRepositoryTest {
 
     @After
     public void cleanup(){
-
     }
 
     @Test
@@ -39,7 +38,7 @@ public class NewsRepositoryTest {
         newsRepository.saveWithDate(news, date);
 
         //when
-        List<News> newsList = newsRepository.findAll();
+        List<News> newsList = newsRepository.findByDate(date);
 
         //then
         News test = newsList.get(0);
