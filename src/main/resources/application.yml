@@ -3,3 +3,4 @@ spring:
     group:
       "default": "local, common"
       "dev": "dev, common"
+      "real": "real, real-db, real-mail, common"

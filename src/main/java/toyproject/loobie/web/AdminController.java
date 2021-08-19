@@ -2,6 +2,7 @@ package toyproject.loobie.web;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -67,6 +68,7 @@ public class AdminController {
     /**
      * admin S3에서 date로 조회하여 뉴스 받아오기
      */
+    @Scheduled(cron = "0 55 0 * * *", zone="Asia/Seoul")
     @PostMapping("/admin/s3read")
     public String s3ReadNewsByDate(@RequestParam("newsDate") String date, RedirectAttributes attributes) throws IOException {
         List<News> newsList = newsService.findByDate(date);
@@ -88,6 +90,7 @@ public class AdminController {
     /**
      * 구독한 유저에게 뉴스 메일 전송하기
      */
+    @Scheduled(cron = "0 0 1 * * *", zone="Asia/Seoul")
     @GetMapping("/admin/send-news")
     public String sendNewsEmail(RedirectAttributes attributes){
         List<User> userList = userService.findAll();

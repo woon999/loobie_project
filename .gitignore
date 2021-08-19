@@ -42,4 +42,5 @@ python/.env
 application-dev.yml
 application-common.yml
 application-real-db.yml
+application-real-mail.yml
 
