@@ -3,6 +3,7 @@ package toyproject.loobie.web;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,9 +22,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-@Controller @Slf4j
+@Component @Slf4j
 @RequiredArgsConstructor
-public class AdminController {
+public class AdminScheduler {
 
     private final NewsService newsService;
     private final UserService userService;
@@ -46,62 +47,37 @@ public class AdminController {
 
     /**
      * admin S3에서 뉴스 받아오기
+     *TODO : 스케줄링 자동 설정
      */
-    @GetMapping("/admin/s3read")
-    public String s3ReadNews(RedirectAttributes attributes) throws IOException {
+    @Scheduled(cron = "0 0/1 * * * *", zone="Asia/Seoul")
+    public void autoS3ReadNews() throws IOException {
         List<News> newsList = newsService.findByDate(todayDate);
 
         // 이미 뉴스를 읽어왔을 경우 그냥 리턴
-        if(newsList.size() != 0){
-            attributes.addFlashAttribute("readMessage", "이미 뉴스를 받아왔습니다.");
-            return "redirect:/admin";
-        }
-
+//        if(newsList.size() != 0){
+//            log.error("이미 뉴스를 읽었습니다.");
+//            return;
+//        }
         // TODO : S3 파일 없을 경우 예외처리
         newsService.readAndSaveBucketObject(todayDataFileName);
-        attributes.addFlashAttribute("readMessage", "뉴스 받아오기에 성공하였습니다.");
-
-        return "redirect:/admin";
     }
 
-    /**
-     * admin S3에서 date로 조회하여 뉴스 받아오기
-     */
-    @PostMapping("/admin/s3read")
-    public String s3ReadNewsByDate(@RequestParam("newsDate") String date, RedirectAttributes attributes) throws IOException {
-        List<News> newsList = newsService.findByDate(date);
-
-        // 이미 뉴스를 읽어왔을 경우 그냥 리턴
-        if(newsList.size() != 0){
-            attributes.addFlashAttribute("dateReadMessage", "이미 뉴스를 받아왔습니다.");
-            return "redirect:/admin";
-        }
-
-        // TODO : S3 파일 없을 경우 예외처리
-        String fileName =  date +".csv";
-        newsService.readAndSaveBucketObject(fileName);
-        attributes.addFlashAttribute("dateReadMessage", "뉴스 받아오기에 성공하였습니다.");
-
-        return "redirect:/admin";
-    }
 
     /**
      * 구독한 유저에게 뉴스 메일 전송하기
      */
-    @GetMapping("/admin/send-news")
-    public String sendNewsEmail(RedirectAttributes attributes){
+    @Scheduled(cron = "0 0/1 * * * *", zone="Asia/Seoul")
+    public void autoSendNewsEmail(){
         List<User> userList = userService.findAll();
         List<News> newsList = newsService.findByDate(todayDate);
 
         if(userList.size()==0){
-            // 구독 유저가 없을 경우 에러 처리
-            attributes.addFlashAttribute("noDataMessage", "등록된 유저가 없습니다.");
-            return "redirect:/admin";
+            // 유저가 없을 경우 에러처리
+            return;
         }
         if(newsList.size()==0){
             // 오늘의 뉴스가 없을 경우 에러 처리
-            attributes.addFlashAttribute("noDataMessage", "뉴스는 매일 오전 8시 업데이트됩니다.");
-            return "redirect:/admin";
+            return;
         }
         News news = newsList.get(0);
         for(User user : userList){
@@ -109,9 +85,6 @@ public class AdminController {
             log.info(to+ "님에게 뉴스 전송 완료");
             userService.sendNewsEmail(to, news);
         }
-
-        attributes.addFlashAttribute("sendMessage", "뉴스 보내기 성공하였습니다.");
-        return "redirect:/admin";
     }
 
 }
