@@ -119,4 +119,21 @@ public class UserService {
         emailService.sendEmail(emailMessageDto);
     }
 
+    // 자동 뉴스 메일 전송
+    public void autoSendNewsEmail(String email, News news) {
+        Context context = new Context();
+        context.setVariable("articles", news.getArticles());
+        context.setVariable("economics", news.getEconomics());
+        context.setVariable("host", appProperties.getHost());
+        String message = templateEngine.process("mail/email-news-form", context);
+
+        EmailMessageDto emailMessageDto =  EmailMessageDto.builder()
+                .to(email)
+                .subject(news.getDate()+ ". 오늘의 헤드라인 뉴스")
+                .message(message)
+                .build();
+
+        emailService.sendEmail(emailMessageDto);
+    }
+
 }

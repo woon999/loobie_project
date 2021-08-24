@@ -39,6 +39,9 @@ dependencies {
 
 	implementation group: 'org.springframework', name: 'spring-context-support', version: '5.3.9'
 
+	implementation group: 'net.sourceforge.nekohtml', name: 'nekohtml', version: '1.9.22'
+
+
 	// mariadb
 	implementation 'org.mariadb.jdbc:mariadb-java-client:2.2.0'
 	compile('mysql:mysql-connector-java')

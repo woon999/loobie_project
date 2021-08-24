@@ -1,13 +1,19 @@
 # local 환경
+spring:
+  datasource:
+    url: jdbc:h2:mem:test2
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop # 개발 환경 create-drop 또 update / 운영 환경 validate
+    show-sql: true
+  session:
+    store-type: jdbc
+
 app:
   host: http://localhost:8080
 server:
   port: 8080
 
-logging:
-  level:
-    org.hibernate.SQL: debug
-    com:
-      amazonaws:
-        util:
-          EC2MetadataUtils: error
