@@ -2,6 +2,7 @@ package toyproject.loobie.web;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.annotations.Target;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +30,7 @@ public class AdminScheduler {
     /**
      * admin S3에서 뉴스 받아오기
      */
+    @Transactional
     @Scheduled(cron = "0 0/1 * * * *", zone="Asia/Seoul")
     public void autoS3ReadNews() throws IOException {
         List<News> newsList = newsService.findByDate(todayDate);
