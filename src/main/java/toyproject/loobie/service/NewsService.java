@@ -5,6 +5,7 @@ import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +26,7 @@ import java.util.List;
 import static toyproject.loobie.domain.article.ArticleCategory.*;
 import static toyproject.loobie.domain.economic.EconomicCategory.*;
 
-@Service
+@Service @Slf4j
 @RequiredArgsConstructor
 public class NewsService {
 
@@ -76,10 +77,12 @@ public class NewsService {
         S3ObjectInputStream ois = null;
         BufferedReader br = null;
 
+
         // CSV 한 번에 한 줄씩 읽기
         try {
             ois = o.getObjectContent();
 //            System.out.println ("ois = " + ois);
+            log.info("#ois = " + ois);
 
             br = new BufferedReader (new InputStreamReader(ois, "UTF-8"));
             StringBuilder sb = new StringBuilder();

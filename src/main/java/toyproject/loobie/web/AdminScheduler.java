@@ -41,8 +41,9 @@ public class AdminScheduler {
             return;
         }
         // TODO : S3 파일 없을 경우 예외처리
-        log.info("뉴스 읽기 성공");
+        log.info("뉴스 읽기 시작");
         newsService.readAndSaveBucketObject(todayDataFileName);
+        log.info("뉴스 읽기 성공");
     }
 
 
