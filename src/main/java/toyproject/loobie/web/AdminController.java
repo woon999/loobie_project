@@ -58,8 +58,12 @@ public class AdminController {
         }
 
         // TODO : S3 파일 없을 경우 예외처리
-        newsService.readAndSaveBucketObject(todayDataFileName);
-        attributes.addFlashAttribute("readMessage", "뉴스 받아오기에 성공하였습니다.");
+        boolean status = newsService.readAndSaveBucketObject(todayDataFileName);
+        if(status) {
+            attributes.addFlashAttribute("readMessage", "뉴스 받아오기에 성공하였습니다.");
+        }else{
+            attributes.addFlashAttribute("readMessage", "뉴스 받아오기에 실패하였습니다.");
+        }
 
         return "redirect:/admin";
     }
@@ -79,8 +83,14 @@ public class AdminController {
 
         // TODO : S3 파일 없을 경우 예외처리
         String fileName =  date +".csv";
-        newsService.readAndSaveBucketObject(fileName);
-        attributes.addFlashAttribute("dateReadMessage", "뉴스 받아오기에 성공하였습니다.");
+        boolean status = newsService.readAndSaveBucketObject(fileName);
+        if(status) {
+            attributes.addFlashAttribute("dateReadMessage", "뉴스 받아오기에 성공하였습니다.");
+        }else{
+            attributes.addFlashAttribute("dateReadMessage", "뉴스 받아오기에 실패하였습니다.");
+        }
+
+
 
         return "redirect:/admin";
     }

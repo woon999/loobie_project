@@ -72,24 +72,23 @@ public class NewsService {
      * S3 bucket 객체 파일 읽어서 저장하기 (csv)
      */
     @Transactional
-    public void readAndSaveBucketObject(String storedFileName) throws IOException {
+    public boolean readAndSaveBucketObject(String storedFileName) throws IOException {
         S3Object o = amazonS3.getObject(new GetObjectRequest(bucket, storedFileName));
         S3ObjectInputStream ois = null;
         BufferedReader br = null;
 
-
+        boolean flag = false;
         // CSV 한 번에 한 줄씩 읽기
         try {
             ois = o.getObjectContent();
-//            System.out.println ("ois = " + ois);
             log.info("#ois = " + ois);
 
             br = new BufferedReader (new InputStreamReader(ois, "UTF-8"));
-            StringBuilder sb = new StringBuilder();
-            String line;
+            String line = null;
             String date;
             Long newsId = 0L;
             while ((line = br.readLine()) != null) {
+                flag= true;
                 // Store 1 record in an array separated by commas
                 String[] data = line.split("#", 0);
                 News news = new News();
@@ -106,7 +105,6 @@ public class NewsService {
                         link = null;
                         News insertNews = newsRepository.findOne(newsId);
 
-                        // TODO : refactoring
                         if(data[i].equals("[뉴스 정치]")){
                             content = data[i + 1].substring(1, data[i + 1].length());
                             link = data[i + 2].substring(1, data[i + 2].length());
@@ -197,6 +195,8 @@ public class NewsService {
                 br.close();
             }
         }
+
+        return flag;
     }
 
     // csv 데이터 1차 가공 작업

@@ -1,4 +1,4 @@
-package toyproject.loobie.web;
+package toyproject.loobie.service.scheduler;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,9 +29,10 @@ public class AdminScheduler {
 
     /**
      * admin S3에서 뉴스 받아오기
+     * 매일 오전 6시 55분
      */
     @Transactional
-    @Scheduled(cron = "0 0/1 * * * *", zone="Asia/Seoul")
+    @Scheduled(cron = "0 55 6 * * *", zone="Asia/Seoul")
     public void autoS3ReadNews() throws IOException {
         List<News> newsList = newsService.findByDate(todayDate);
 
@@ -42,16 +43,23 @@ public class AdminScheduler {
         }
         // TODO : S3 파일 없을 경우 예외처리
         log.info("뉴스 읽기 시작");
-        newsService.readAndSaveBucketObject(todayDataFileName);
-        log.info("뉴스 읽기 성공");
+        boolean status = newsService.readAndSaveBucketObject(todayDataFileName);
+        if(status){
+            log.info("뉴스 읽기 성공");
+        }else{
+            log.info("뉴스 읽기 실패");
+        }
+
     }
 
 
     /**
      * 구독한 유저에게 뉴스 메일 전송하기
+     * 매일 오전 6시 59분
      */
     @Transactional(readOnly = true)
-    @Scheduled(cron = "0 0/1 * * * *", zone="Asia/Seoul")
+//    @Scheduled(cron = "0 0/1 * * * *", zone="Asia/Seoul")
+    @Scheduled(cron = "0 59 6 * * *", zone="Asia/Seoul")
     public void autoSendNewsEmail(){
         List<User> userList = userService.findAll();
         List<News> newsList = newsService.findByDate(todayDate);
