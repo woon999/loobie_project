@@ -9,9 +9,10 @@ import javax.persistence.*;
 @Entity
 @Table(name = "economics")
 @Getter @Setter
+@NoArgsConstructor
 public class Economic extends BaseTimeEntity {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "economic_id")
     private Long id;
 
@@ -27,8 +28,6 @@ public class Economic extends BaseTimeEntity {
     @JoinColumn(name = "news_id")
     private News news;
 
-    public Economic(){
-    }
 
     @Builder
     public Economic(EconomicCategory type, String eIndex, String changeIndex, String changeRate, News news) {

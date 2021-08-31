@@ -9,10 +9,10 @@ import javax.persistence.*;
 @Entity
 @Table(name = "articles")
 @Getter @Setter
-//@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 public class Article extends BaseTimeEntity {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "article_id")
     private Long id;
 
@@ -27,8 +27,6 @@ public class Article extends BaseTimeEntity {
     @JoinColumn(name = "news_id")
     private News news;
 
-    public Article(){
-    }
 
     @Builder
     public Article(ArticleCategory type, String newsContent, String newsLink, News news) {
