@@ -1,20 +1,23 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
     <div class="header" th:fragment="bodyHeader">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="/admin">
-                <h3 class="text-primary">DOT NEWS</h3>
-            </a>
+        <nav class="navbar navbar-expand-lg navbar-light">
+                <a class="navbar-brand pt-pd-3" href="/"
+                   style="display: flex;">
+                    <img src="img/logo.png"
+                         style="margin-right: 0.5rem; width:2.2rem; height: 2.2rem">
+                    <h1 class="text mt-2">LOOBIE</h1>
+                </a>
 
             <div th:if="${userName == null}">
                 <a class="btn btn-lg btn-primary" href="/oauth2/authorization/kakao">Kakao Login</a>
-
             </div>
-            <div class="row" th:if="${userName != null}">
-                <div class="col">
-                    <p th:text="'login :'+ ${userName}"></p>
+
+            <div  style="display: flex;" th:if="${userName != null}">
+                <div style="margin: 1rem">
+                    <p th:text=" ${userName}+'님'"></p>
                 </div>
-                <div class="col">
+                <div >
                     <a class="btn btn-lg btn-primary" href="/logout">logout</a>
                 </div>
             </div>
