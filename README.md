@@ -15,7 +15,7 @@
     - spring : @Scheduler cron (뉴스 이메일 발송)
 
 # Stack
-- Backend : Java, SpringBoot 2.4.5, JUnit4
+- Backend : Java11, SpringBoot 2.4.5, Grdale 7.0.1, JUnit4
 - Frontend : bootstrap(html+css), thymeleaf
 - Web Scraping : python 3.8.3
 - DevOps
@@ -29,12 +29,15 @@
 
 <br>
 
-# Example
+# View
 - 웹으로 뉴스 읽기 / 구독하기 
 <img width="850" alt="스크린샷 2021-08-30 오전 12 40 59" src="https://user-images.githubusercontent.com/54282927/131256440-8759d464-8575-4e2b-b1e1-8861ebd46a72.png">
 
 - 이메일로 뉴스 발송
 <img width="850" alt="스크린샷 2021-08-30 오전 12 44 41" src="https://user-images.githubusercontent.com/54282927/131256574-d9547d57-ac1b-4e8c-8de2-75cb5a963469.png">
+
+- 클라이언트 / 백오피스 주요 기능
+<img width="850" src="https://user-images.githubusercontent.com/54282927/132133284-79f00eeb-f1d9-425f-9f33-e105202862e2.jpeg">
 
 
 <br>
@@ -56,4 +59,4 @@
 - [파이썬 무료 강의 (활용편3) - 웹 스크래핑 (5시간)](https://www.inflearn.com/course/%ED%8C%8C%EC%9D%B4%EC%8D%AC-%EC%9B%B9-%EC%8A%A4%ED%81%AC%EB%9E%98%ED%95%91/dashboard)
 
 ---
-최종 수정 2021.08.29 © loosie
+최종 수정 2021.09.06 © loosie
