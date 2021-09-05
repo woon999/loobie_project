@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import toyproject.loobie.domain.user.Role;
 
 @RequiredArgsConstructor
 @EnableWebSecurity
@@ -18,10 +19,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .headers().frameOptions().disable() // h2-console 화면 사용하기 위해 해당 옵션 disable
                 .and()
                     .authorizeRequests() // URL별 권한 관리
-                    .antMatchers("/", "/news/*", "/search", "/subscribe", "/check-email-token", "/admin/send-news",
+                    .antMatchers("/", "/news/*", "/search", "/subscribe", "/check-email-token",
                             "/css/**","/images/**","/js/**","/h2-console/**").permitAll()
-//                    .antMatchers("/api/v1/**").hasRole(Role.ADMIN.name())
-                // TODO : /admin 접근권한 설정
+                    .antMatchers("/admin/**").hasRole(Role.ADMIN.name())
                     .anyRequest().authenticated()
                 .and()
                     .logout()
