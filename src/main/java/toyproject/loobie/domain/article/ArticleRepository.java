@@ -34,4 +34,7 @@ public class ArticleRepository {
         return em.find(Article.class, id);
     }
 
+    public void clear(){
+        em.clear();
+    }
 }

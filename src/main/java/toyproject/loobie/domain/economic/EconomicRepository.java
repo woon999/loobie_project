@@ -33,5 +33,7 @@ public class EconomicRepository {
     public Economic find(Long id){
         return em.find(Economic.class, id);
     }
-
+    public void clear(){
+        em.clear();
+    }
 }

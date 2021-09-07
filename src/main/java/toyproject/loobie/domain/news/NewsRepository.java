@@ -38,4 +38,7 @@ public class NewsRepository {
                 .getResultList();
     }
 
+    public void clear(){
+        em.clear();
+    }
 }

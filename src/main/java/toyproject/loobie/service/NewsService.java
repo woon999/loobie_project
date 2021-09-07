@@ -40,9 +40,6 @@ public class NewsService {
 
     @Value("${aws.s3.bucket}")
     private String bucket;
-    private LocalDateTime date = LocalDateTime.now();
-    private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-    private String todayDate = date.format(dateTimeFormatter);
 
     @Transactional(readOnly = true)
     public News findOne(Long id) {
@@ -98,7 +95,6 @@ public class NewsService {
                     newsId = create(news, date);
                 }
                 else{
-//                    int idx =Integer.parseInt(data[0]);
                     for(int i=1; i<data.length; i++){
                         data[i] = data[i].substring(1, data[i].length());
                         content = null;
@@ -186,7 +182,6 @@ public class NewsService {
                     }
                 }
             }
-//            System.out.println(sb.toString());
         }finally {
             if(ois != null){
                 ois.close();
@@ -195,7 +190,6 @@ public class NewsService {
                 br.close();
             }
         }
-
         return flag;
     }
 
