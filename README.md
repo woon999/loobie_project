@@ -1,21 +1,25 @@
-# 📬 루비 Loobie
-- 프로젝트 진행 기간 21.06 ~ 21.09
  
+ 
+# 📬 루비 Loobie
+- 프로젝트 진행 기간 `21.06 ~ 21.09`
+
 <br>
 
 # Intro 
-##### 새로운 소식을 매일 전해주는 자동화 [콘텐츠 구독 서비스](https://blog.stibee.com/%EC%BD%98%ED%85%90%EC%B8%A0-%EA%B5%AC%EB%8F%85-%EC%8B%9C%EB%8C%80%EC%9D%98-%EB%89%B4%EC%8A%A4%EB%A0%88%ED%84%B0-134addfefba2)
-- 기능
-    - 웹 스크래핑(web scraping)으로 각 사이트의 트렌드 뉴스를 한 곳에 모아준다.
-    - 해당 웹을 통해서 당일 트렌드 뉴스 혹은 날짜로 지난 뉴스들을 검색해 볼 수 있다.
-    - 이메일 구독을 할 경우, 매일 오전 7시 당일 트렌드 뉴스를 받아 볼 수 있다. 
+#### 새로운 소식을 매일 전해주는 자동화 [콘텐츠 구독 서비스](https://blog.stibee.com/%EC%BD%98%ED%85%90%EC%B8%A0-%EA%B5%AC%EB%8F%85-%EC%8B%9C%EB%8C%80%EC%9D%98-%EB%89%B4%EC%8A%A4%EB%A0%88%ED%84%B0-134addfefba2)
+
+#### 기능
+- 웹 스크래핑(web scraping)으로 각 사이트의 트렌드 뉴스를 한 곳에 모아준다.
+- 해당 웹을 통해서 당일 트렌드 뉴스 혹은 날짜로 지난 뉴스들을 검색해 볼 수 있다.
+- 이메일 구독을 할 경우, 매일 오전 7시 당일 트렌드 뉴스를 받아 볼 수 있다. 
   
- - 자동 스케줄링 기능 
-    - python : crontab (뉴스 웹 스크래핑 후 S3 업로드) 
-    - spring : @Scheduler (S3에서 뉴스 다운로드 후 유저에게 이메일로 발송)
+#### 자동 스케줄링 기능 
+- python : crontab (뉴스 웹 스크래핑 후 S3 업로드) 
+- spring : @Scheduler (S3에서 뉴스 다운로드 후 유저에게 이메일로 발송)
+
 
 # Stack
-- Backend : Java11, SpringBoot 2.4.5, Grdale 6.8.1, JUnit4
+- Backend : Java 11, SpringBoot 2.4.5, Grdale 6.8.1, JUnit4 
 - Frontend : Thymeleaf, Bootstrap(html+css)
 - Web Scraping : Python 3.8.3
 - DevOps : AWS EC2(Linux AMI2), RDS(MariaDB), S3
@@ -29,7 +33,9 @@
 
 # View
 - 웹으로 뉴스 보기 / 뉴스 구독하기 
-<img width="850" alt="스크린샷 2021-08-30 오전 12 40 59" src="https://user-images.githubusercontent.com/54282927/131256440-8759d464-8575-4e2b-b1e1-8861ebd46a72.png">
+<img width="850" alt="스크린샷 2021-08-30 오전 12 40 59" src="https://user-images.githubusercontent.com/54282927/132550524-b9b169e5-b792-4050-a8c5-7039d5138141.png">
+
+<br>
 
 - 구독자 이메일로 뉴스 발송
 <img width="850" alt="스크린샷 2021-08-30 오전 12 44 41" src="https://user-images.githubusercontent.com/54282927/131256574-d9547d57-ac1b-4e8c-8de2-75cb5a963469.png">
@@ -38,8 +44,13 @@
 <br>
 
 # Blog
+ 
+~~~ 
 💡 자세한 프로젝트 내용은 블로그에서 볼 수 있습니다.
+~~~
+
 - [Spring, Python으로 만든 자동화 콘텐츠 구독 서비스 (루비 LOOBIE)](https://loosie.tistory.com/442)
+
 
 <br>
 
@@ -53,4 +64,4 @@
 - [파이썬 무료 강의 (활용편3) - 웹 스크래핑 (5시간)](https://www.inflearn.com/course/%ED%8C%8C%EC%9D%B4%EC%8D%AC-%EC%9B%B9-%EC%8A%A4%ED%81%AC%EB%9E%98%ED%95%91/dashboard)
 
 ---
-최종 수정 2021.09.06 © loosie
+최종 수정 2021.09.09 © loosie
