@@ -42,7 +42,6 @@ public class AdminScheduler {
             log.error("이미 뉴스를 읽었습니다.");
             return;
         }
-        // TODO : S3 파일 없을 경우 예외처리
         log.info("뉴스 읽기 시작");
         boolean status = newsService.readAndSaveBucketObject(todayDataFileName);
         if(status){
