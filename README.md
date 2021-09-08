@@ -1,8 +1,7 @@
- 
- 
 # 📬 루비 Loobie
-- 프로젝트 진행 기간 `21.06 ~ 21.09`
+프로젝트 진행 기간 `21.05 ~ 21.08`
 
+<img width="360" alt="스크린샷 2021-09-09 오전 1 51 02" src="https://user-images.githubusercontent.com/54282927/132551452-f4dff15d-2509-40ee-852d-579eafc811d5.png">
 <br>
 
 # Intro 
@@ -17,6 +16,8 @@
 - python : crontab (뉴스 웹 스크래핑 후 S3 업로드) 
 - spring : @Scheduler (S3에서 뉴스 다운로드 후 유저에게 이메일로 발송)
 
+
+<br>
 
 # Stack
 - Backend : Java 11, SpringBoot 2.4.5, Grdale 6.8.1, JUnit4 
