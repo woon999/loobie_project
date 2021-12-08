@@ -30,7 +30,6 @@ public class UserRepository {
             user = Optional.ofNullable(em.createQuery("select u from User u where u.email = :email", User.class)
                     .setParameter("email", email).getSingleResult());
         }catch (NoResultException e){
-//            System.out.println("###" + e);
             user = Optional.empty();
         }finally {
             return user;

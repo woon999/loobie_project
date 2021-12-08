@@ -9,7 +9,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import toyproject.loobie.domain.article.ArticleCategory;
 import toyproject.loobie.domain.article.ArticleRepository;
+import toyproject.loobie.domain.economic.EconomicCategory;
 import toyproject.loobie.domain.economic.EconomicRepository;
 import toyproject.loobie.domain.news.NewsRepository;
 import toyproject.loobie.domain.news.News;
@@ -19,8 +22,6 @@ import toyproject.loobie.web.dto.EconomicSaveRequestDto;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static toyproject.loobie.domain.article.ArticleCategory.*;
@@ -71,16 +72,12 @@ public class NewsService {
     @Transactional
     public boolean readAndSaveBucketObject(String storedFileName) throws IOException {
         S3Object o = amazonS3.getObject(new GetObjectRequest(bucket, storedFileName));
-        S3ObjectInputStream ois = null;
-        BufferedReader br = null;
 
         boolean flag = false;
         // CSV 한 번에 한 줄씩 읽기
-        try {
-            ois = o.getObjectContent();
-            log.info("#ois = " + ois);
+        try (S3ObjectInputStream ois = o.getObjectContent();
+        BufferedReader br = new BufferedReader (new InputStreamReader(ois, "UTF-8"))){
 
-            br = new BufferedReader (new InputStreamReader(ois, "UTF-8"));
             String line = null;
             String date;
             Long newsId = 0L;
@@ -93,108 +90,74 @@ public class NewsService {
                 if(data[0].equals("N")){
                     date = storedFileName.substring(0,8);
                     newsId = create(news, date);
+                    continue;
                 }
-                else{
-                    for(int i=1; i<data.length; i++){
-                        data[i] = data[i].substring(1, data[i].length());
-                        content = null;
-                        link = null;
-                        News insertNews = newsRepository.findOne(newsId);
 
-                        if(data[i].equals("[뉴스 정치]")){
-                            content = data[i + 1].substring(1, data[i + 1].length());
-                            link = data[i + 2].substring(1, data[i + 2].length());
-                            stringProcessing();
-                            // news (POLITICS)
-                            ArticleSaveRequestDto requestDto = ArticleSaveRequestDto.builder()
-                                    .newsContent(content)
-                                    .newsLink(link)
-                                    .news(insertNews)
-                                    .build();
-                            articleRepository.saveByCategory(requestDto ,POLITICS);
-                        }else if(data[i].equals("[뉴스 경제]")){
-                            content = data[i + 1].substring(1, data[i + 1].length());
-                            link = data[i + 2].substring(1, data[i + 2].length());
-                            stringProcessing();
-                            // news (ECONOMIC)
-                            ArticleSaveRequestDto requestDto = ArticleSaveRequestDto.builder()
-                                    .newsContent(content)
-                                    .newsLink(link)
-                                    .news(insertNews)
-                                    .build();
-                            articleRepository.saveByCategory(requestDto ,ECONOMIC);
-                        }else if(data[i].equals("[뉴스 IT/과학]")){
-                            content = data[i + 1].substring(1, data[i + 1].length());
-                            link = data[i + 2].substring(1, data[i + 2].length());
-                            stringProcessing();
-                            // news (IT)
-                            ArticleSaveRequestDto requestDto = ArticleSaveRequestDto.builder()
-                                    .newsContent(content)
-                                    .newsLink(link)
-                                    .news(insertNews)
-                                    .build();
-                            articleRepository.saveByCategory(requestDto ,IT);
-                        }else if(data[i].equals("[뉴스 CNBC]")){
-                            content = data[i + 1].substring(1, data[i + 1].length());
-                            link = data[i + 2].substring(1, data[i + 2].length());
-                            stringProcessing();
-                            // news (CNBC)
-                            ArticleSaveRequestDto requestDto = ArticleSaveRequestDto.builder()
-                                    .newsContent(content)
-                                    .newsLink(link)
-                                    .news(insertNews)
-                                    .build();
-                            articleRepository.saveByCategory(requestDto ,CNBC);
-                        }else if(data[i].equals("[경제 환율]")){
-                            content = data[i + 1].substring(1, data[i + 1].length());
-                            String[] pData = economicDataProcessing().split(",");
+                for(int i=1; i<data.length; i++){
+                    data[i] = data[i].substring(1, data[i].length());
+                    content = null;
+                    link = null;
+                    News insertNews = newsRepository.findOne(newsId);
 
-                            EconomicSaveRequestDto requestDto = EconomicSaveRequestDto.builder()
-                                    .eIndex(pData[0])
-                                    .changeIndex(pData[1])
-                                    .changeRate(pData[2])
-                                    .news(insertNews)
-                                    .build();
-                            economicRepository.saveByCategory(requestDto, EXCHANGE);
-                        }else if(data[i].equals("[경제 나스닥]")){
-                            content = data[i + 1].substring(1, data[i + 1].length());
-                            String[] pData = economicDataProcessing().split(",");
-
-                            EconomicSaveRequestDto requestDto = EconomicSaveRequestDto.builder()
-                                    .eIndex(pData[0])
-                                    .changeIndex(pData[1])
-                                    .changeRate(pData[2])
-                                    .news(insertNews)
-                                    .build();
-                            economicRepository.saveByCategory(requestDto, NASDAQ);
-                        }else if(data[i].equals("[경제 SP]")){
-                            content = data[i + 1].substring(1, data[i + 1].length());
-                            String[] pData = economicDataProcessing().split(",");
-
-                            EconomicSaveRequestDto requestDto = EconomicSaveRequestDto.builder()
-                                    .eIndex(pData[0])
-                                    .changeIndex(pData[1])
-                                    .changeRate(pData[2])
-                                    .news(insertNews)
-                                    .build();
-                            economicRepository.saveByCategory(requestDto, SP500);
-                        }
+                    if(data[i].equals("[뉴스 정치]")){
+                        trimContentAndLink(data, i);
+                        trimCsvData();
+                        saveArticleByType(insertNews, POLITICS);
+                    }else if(data[i].equals("[뉴스 경제]")){
+                        trimContentAndLink(data, i);
+                        trimCsvData();
+                        saveArticleByType(insertNews, ECONOMIC);
+                    }else if(data[i].equals("[뉴스 IT/과학]")){
+                        trimContentAndLink(data, i);
+                        trimCsvData();
+                        saveArticleByType(insertNews, IT);
+                    }else if(data[i].equals("[뉴스 CNBC]")){
+                        trimContentAndLink(data, i);
+                        trimCsvData();
+                        saveArticleByType(insertNews, CNBC);
+                    }else if(data[i].equals("[경제 환율]")){
+                        saveEconomicDataByType(insertNews, data[i + 1], EXCHANGE);
+                    }else if(data[i].equals("[경제 나스닥]")){
+                        saveEconomicDataByType(insertNews, data[i + 1], NASDAQ);
+                    }else if(data[i].equals("[경제 SP]")){
+                        saveEconomicDataByType(insertNews, data[i + 1], SP500);
                     }
                 }
             }
-        }finally {
-            if(ois != null){
-                ois.close();
-            }
-            if(br != null){
-                br.close();
-            }
         }
+
         return flag;
     }
 
+    private void saveEconomicDataByType(News insertNews, String datum, EconomicCategory economicType) {
+        content = datum.substring(1, datum.length());
+        String[] pData = trimEconomicData().split(",");
+
+        EconomicSaveRequestDto requestDto = EconomicSaveRequestDto.builder()
+            .eIndex(pData[0])
+            .changeIndex(pData[1])
+            .changeRate(pData[2])
+            .news(insertNews)
+            .build();
+        economicRepository.saveByCategory(requestDto, economicType);
+    }
+
+    private void trimContentAndLink(String[] data, int i) {
+        content = data[i + 1].substring(1, data[i + 1].length());
+        link = data[i + 2].substring(1, data[i + 2].length());
+    }
+
+    private void saveArticleByType(News insertNews, ArticleCategory articleType) {
+        ArticleSaveRequestDto requestDto = ArticleSaveRequestDto.builder()
+            .newsContent(content)
+            .newsLink(link)
+            .news(insertNews)
+            .build();
+        articleRepository.saveByCategory(requestDto, articleType);
+    }
+
     // csv 데이터 1차 가공 작업
-    private static void stringProcessing(){
+    private void trimCsvData(){
         if(content != null){
             if(content.charAt(0) ==',') {
                 content = content.substring(1, content.length());
@@ -217,8 +180,8 @@ public class NewsService {
     }
 
     // 경제 데이터 String 2차 가공 작업
-    private static String economicDataProcessing(){
-        stringProcessing();
+    private String trimEconomicData(){
+        trimCsvData();
         String[] economic_data = content.split("@");
         String index = economic_data[0].replaceAll(",","");
 
@@ -231,23 +194,4 @@ public class NewsService {
         return index+","+changeIndex+","+changeRate;
     }
 
-
-    /**
-     * S3 bucket 파일 다운로드
-     * bucket 이름 : ${aws.s3.bucket}
-     * bucket에 저장된 파일명: storedFileName
-     */
-//    public ResponseEntity<byte[]> getBucketObject(String storedFileName) throws IOException{
-//        S3Object o = amazonS3.getObject(new GetObjectRequest(bucket, storedFileName));
-//        S3ObjectInputStream objectInputStream = o.getObjectContent();
-//        byte[] bytes = IOUtils.toByteArray(objectInputStream);
-//
-//        String fileName = URLEncoder.encode(storedFileName, "UTF-8").replaceAll("\\+", "%20");
-//        HttpHeaders httpHeaders = new HttpHeaders();
-//        httpHeaders.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-//        httpHeaders.setContentLength(bytes.length);
-//        httpHeaders.setContentDispositionFormData("attachment", fileName);
-//
-//        return new ResponseEntity<>(bytes, httpHeaders, HttpStatus.OK);
-//    }
 }

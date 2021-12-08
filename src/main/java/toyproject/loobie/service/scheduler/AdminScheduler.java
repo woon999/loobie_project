@@ -78,7 +78,7 @@ public class AdminScheduler {
         for(User user : userList){
             String to = user.getEmail();
             log.info(to+ "님에게 뉴스 전송 완료");
-            userService.autoSendNewsEmail(to, news);
+            userService.sendNewsEmail(to, news);
         }
     }
 
